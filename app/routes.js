@@ -10,7 +10,7 @@ var Car = require('./models/car');
 var Promise = require("bluebird");
 var pg = require("pg");
 var pgp = require("pg-promise")({promiseLib: Promise});
-
+var DB_URL = "pg://localhost:5432/bluthman";
 var db = pgp(DB_URL);
 
 
@@ -50,7 +50,7 @@ module.exports = function(app, passport){
 		
 		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
-		var queryString = "SELECT id FROM locations";
+		var queryString = "SELECT id,name FROM cars";
 		db.query(queryString,function(err,result){
 			prettyPrint(result);
 		})
