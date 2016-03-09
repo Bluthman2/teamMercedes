@@ -1,4 +1,19 @@
+function prettyPrint(jsonObject){
+    console.log(JSON.stringify(jsonObject,null,2));
+}
+
+
 var User = require('./models/user');
+var Car = require('./models/car');
+
+
+var Promise = require("bluebird");
+var pg = require("pg");
+var pgp = require("pg-promise")({promiseLib: Promise});
+
+var db = pgp(DB_URL);
+
+
 module.exports = function(app, passport){
 	app.get('/', function(req, res){
 		res.render('index.ejs');
@@ -8,7 +23,7 @@ module.exports = function(app, passport){
 		res.render('login.ejs', { message: req.flash('loginMessage') });
 	});
 	app.post('/login', passport.authenticate('local-login', {
-		successRedirect: '/profile',
+		successRedirect: '/table', //profile
 		failureRedirect: '/login',
 		failureFlash: true
 	}));
@@ -27,6 +42,29 @@ module.exports = function(app, passport){
 	app.get('/profile', isLoggedIn, function(req, res){
 		res.render('profile.ejs', { user: req.user });
 	});
+
+	app.get('/table', isLoggedIn, function(req, res){
+		// console.log("cars=");
+		// var cars = json(Car.find({}));
+		// prettyPrint(cars);
+		
+		// var myOtherVar = JSON.parse('<%-myVar%>');
+		var cars;
+		var queryString = "SELECT id FROM locations";
+		db.query(queryString,function(err,result){
+			prettyPrint(result);
+		})
+		.then(function(results){
+			res.render('table.ejs', { user: req.user, cars: results });
+		})
+		
+	});
+
+	// app.get('/profile', isLoggedIn, function(req, res){
+	// 	console.log("car.count=");
+	// 	prettyPrint(Car.count());
+	// 	res.render('table.ejs', { user: req.user, count: {count: Car.count()}, cars: Car.find({}) });
+	// });
 
 
 
