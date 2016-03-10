@@ -5,8 +5,9 @@ function prettyPrint(jsonObject){
 
 var User = require('./models/user');
 var Car = require('./models/car');
+var config = require('../config/config')
 
-var DB_URL = "pg://power_user:softwareCode@54.187.59.226:5432/bluthman";
+var DB_URL = "pg://"+ config.username + ":"+ config.password+"@"+config.ipAddress+":5432/bluthman";
 var Promise = require("bluebird");
 var pg = require("pg");
 var pgp = require("pg-promise")({promiseLib: Promise});

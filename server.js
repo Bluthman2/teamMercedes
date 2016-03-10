@@ -1,5 +1,5 @@
 //ssh
-// ssh -i '.\keyPairAWS.pem' 'ec2-user@ec2-54-187-59-226.us-west-2.compute.amazonaws.com'
+
 
 var express = require('express');
 var app = express();
