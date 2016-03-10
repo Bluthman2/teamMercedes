@@ -6,11 +6,11 @@ function prettyPrint(jsonObject){
 var User = require('./models/user');
 var Car = require('./models/car');
 
-
+var DB_URL = "pg://power_user:softwareCode@54.187.59.226:5432/bluthman";
 var Promise = require("bluebird");
 var pg = require("pg");
 var pgp = require("pg-promise")({promiseLib: Promise});
-var DB_URL = "pg://localhost:5432/bluthman";
+// var DB_URL = "pg://localhost:5432/bluthman";
 var db = pgp(DB_URL);
 
 
@@ -50,7 +50,7 @@ module.exports = function(app, passport){
 		
 		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
-		var queryString = "SELECT id,name FROM cars";
+		var queryString = "SELECT id,VIN,type FROM cars";
 		db.query(queryString,function(err,result){
 			prettyPrint(result);
 		})

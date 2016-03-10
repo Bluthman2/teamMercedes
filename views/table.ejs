@@ -17,31 +17,19 @@
   <table class="table table-hover">
     <thead>
       <tr>
+        <th>ID</th>
         <th>VIN</th>
-        <th>Model</th>
         <th>Type</th>
       </tr>
     </thead>
     <tbody>
-      <% for(var i=0; i<2; i++) {%>
+      <% for(var i=0; i<cars.length; i++) {%>
         <tr>
-           <td> Cars </td>
            <td><%= cars[i].id %></td>
-           <td><%= cars[i].name %></td>
+           <td><%= cars[i].vin %></td>
+           <td><%= cars[i].type %></td>
         </tr>
         <% } %>
-      <% for(var i=0; i<2; i++) {%>
-        <tr>
-           <td><%= user.local.username %></td>
-           <td><%= user.local.password  %></td>
-           <td> cars </td>
-        </tr>
-      <% } %>
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td>july@example.com</td>
-      </tr>
     </tbody>
   </table>
 </div>
