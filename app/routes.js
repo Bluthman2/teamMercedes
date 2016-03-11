@@ -24,7 +24,7 @@ module.exports = function(app, passport){
 		res.render('login.ejs', { message: req.flash('loginMessage') });
 	});
 	app.post('/login', passport.authenticate('local-login', {
-		successRedirect: '/table', //profile
+		successRedirect: '/home', //profile
 		failureRedirect: '/login',
 		failureFlash: true
 	}));
@@ -44,20 +44,37 @@ module.exports = function(app, passport){
 		res.render('profile.ejs', { user: req.user });
 	});
 
-	app.get('/table', isLoggedIn, function(req, res){
+	app.get('/home', isLoggedIn, function(req, res){
+		res.render('home.ejs', { user: req.user });
+	});
+
+	app.get('/newCars', isLoggedIn, function(req, res){
 		// console.log("cars=");
 		// var cars = json(Car.find({}));
 		// prettyPrint(cars);
 		
 		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
-		var queryString = "SELECT id,VIN,type FROM cars";
-		db.query(queryString,function(err,result){
-			prettyPrint(result);
-		})
+		var queryString = "SELECT id,VIN,type FROM cars WHERE classification = $1";
+		db.query(queryString,["new"])
 		.then(function(results){
-			res.render('table.ejs', { user: req.user, cars: results });
-		})
+			res.render('newCars.ejs', { user: req.user, cars: results });
+		});
+		
+	});
+
+	app.get('/usedCars', isLoggedIn, function(req, res){
+		// console.log("cars=");
+		// var cars = json(Car.find({}));
+		// prettyPrint(cars);
+		
+		// var myOtherVar = JSON.parse('<%-myVar%>');
+		var cars;
+		var queryString = "SELECT id,VIN,type FROM cars WHERE classification = $1";
+		db.query(queryString,["used"])
+		.then(function(results){
+			res.render('usedCars.ejs', { user: req.user, cars: results });
+		});
 		
 	});
 
