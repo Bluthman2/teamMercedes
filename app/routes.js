@@ -55,7 +55,7 @@ module.exports = function(app, passport){
 		
 		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
-		var queryString = "SELECT id,VIN,type FROM cars WHERE classification = $1";
+		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["new"])
 		.then(function(results){
 			res.render('newCars.ejs', { user: req.user, cars: results });
@@ -70,7 +70,7 @@ module.exports = function(app, passport){
 		
 		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
-		var queryString = "SELECT id,VIN,type FROM cars WHERE classification = $1";
+		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["used"])
 		.then(function(results){
 			res.render('usedCars.ejs', { user: req.user, cars: results });
@@ -85,7 +85,7 @@ module.exports = function(app, passport){
 		
 		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
-		var queryString = "SELECT id,VIN,type FROM cars WHERE classification = $1";
+		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["auction"])
 		.then(function(results){
 			res.render('auctionCars.ejs', { user: req.user, cars: results });

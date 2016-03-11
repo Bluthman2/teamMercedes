@@ -43,7 +43,12 @@
       <tr>
         <th>ID</th>
         <th>VIN</th>
+        <th>Classification</th>
+        <th>Year</th>
+        <th>Model</th>
+        <th>Color</th>
         <th>Type</th>
+        <th>Accessories</th>
       </tr>
     </thead>
     <tbody>
@@ -51,7 +56,12 @@
         <tr>
            <td><%= cars[i].id %></td>
            <td><%= cars[i].vin %></td>
+           <td><%= cars[i].classification %></td>
+           <td><%= cars[i].year %></td>
+           <td><%= cars[i].model %></td>
+           <td><%= cars[i].color %></td>
            <td><%= cars[i].type %></td>
+           <td><%= cars[i].accessories %></td>
         </tr>
         <% } %>
     </tbody>
