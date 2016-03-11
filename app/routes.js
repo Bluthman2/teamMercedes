@@ -78,6 +78,21 @@ module.exports = function(app, passport){
 		
 	});
 
+	app.get('/auctionCars', isLoggedIn, function(req, res){
+		// console.log("cars=");
+		// var cars = json(Car.find({}));
+		// prettyPrint(cars);
+		
+		// var myOtherVar = JSON.parse('<%-myVar%>');
+		var cars;
+		var queryString = "SELECT id,VIN,type FROM cars WHERE classification = $1";
+		db.query(queryString,["auction"])
+		.then(function(results){
+			res.render('auctionCars.ejs', { user: req.user, cars: results });
+		});
+		
+	});
+
 	// app.get('/profile', isLoggedIn, function(req, res){
 	// 	console.log("car.count=");
 	// 	prettyPrint(Car.count());
