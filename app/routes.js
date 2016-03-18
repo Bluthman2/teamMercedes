@@ -11,7 +11,6 @@ var DB_URL = "pg://"+ config.username + ":"+ config.password+"@"+config.ipAddres
 var Promise = require("bluebird");
 var pg = require("pg");
 var pgp = require("pg-promise")({promiseLib: Promise});
-// var DB_URL = "pg://localhost:5432/bluthman";
 var db = pgp(DB_URL);
 
 
@@ -29,16 +28,16 @@ module.exports = function(app, passport){
 		failureFlash: true
 	}));
 
-	// app.get('/signup', function(req, res){
-	// 	res.render('signup.ejs', { message: req.flash('signupMessage') });
-	// });
+	app.get('/signup', function(req, res){
+		res.render('signup.ejs', { message: req.flash('signupMessage') });
+	});
 
 
-	// app.post('/signup', passport.authenticate('local-signup', {
-	// 	successRedirect: '/',
-	// 	failureRedirect: '/signup',
-	// 	failureFlash: true
-	// }));
+	app.post('/signup', passport.authenticate('local-signup', {
+		successRedirect: '/',
+		failureRedirect: '/signup',
+		failureFlash: true
+	}));
 
 	app.get('/profile', isLoggedIn, function(req, res){
 		res.render('profile.ejs', { user: req.user });
@@ -56,9 +55,28 @@ module.exports = function(app, passport){
 		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
-		db.query(queryString,["new"])
+		db.query(queryString,["New"])
 		.then(function(results){
 			res.render('newCars.ejs', { user: req.user, cars: results });
+		});
+		
+	});
+
+	app.post('/insertCar', function(req, res){
+		// console.log("cars=");
+		// var cars = json(Car.find({}));
+		// prettyPrint(cars);
+		
+		// var myOtherVar = JSON.parse('<%-myVar%>');
+
+
+		var cars;
+		var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories) "+
+			"values($1,$2,$3,$4,$5,$6,$7)";
+		db.query(queryString,[req.body.VIN,req.body.Classification,req.body.Year,
+			req.body.Type,req.body.Model,req.body.Color,req.body.Accessories])
+		.then(function(results){
+			res.render('home.ejs', { user: req.user });
 		});
 		
 	});
@@ -71,7 +89,7 @@ module.exports = function(app, passport){
 		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
-		db.query(queryString,["used"])
+		db.query(queryString,["Used"])
 		.then(function(results){
 			res.render('usedCars.ejs', { user: req.user, cars: results });
 		});
@@ -86,7 +104,7 @@ module.exports = function(app, passport){
 		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
-		db.query(queryString,["auction"])
+		db.query(queryString,["Auction"])
 		.then(function(results){
 			res.render('auctionCars.ejs', { user: req.user, cars: results });
 		});

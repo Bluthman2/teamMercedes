@@ -35,7 +35,7 @@
       </div>
     </nav>
 <div class="container">
-  <h2>Cars</h2>
+  <h2>New Cars</h2>
   <p>Here are the cars in the database:</p>            
   <table class="table table-hover">
     <thead>
@@ -57,14 +57,15 @@
            <td><%= cars[i].vin %></td>
            <td><%= cars[i].classification %></td>
            <td><%= cars[i].year %></td>
+           <td><%= cars[i].type %></td>
            <td><%= cars[i].model %></td>
            <td><%= cars[i].color %></td>
-           <td><%= cars[i].type %></td>
            <td><%= cars[i].accessories %></td>
         </tr>
         <% } %>
     </tbody>
   </table>
+
 </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
