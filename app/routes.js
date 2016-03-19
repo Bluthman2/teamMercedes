@@ -62,6 +62,10 @@ module.exports = function(app, passport){
 		
 	});
 
+	app.get('/insertCars', isLoggedIn, function(req, res){
+		res.render('insertCars.ejs', { user: req.user });
+	});
+
 	app.post('/insertCar', function(req, res){
 		// console.log("cars=");
 		// var cars = json(Car.find({}));
