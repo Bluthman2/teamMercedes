@@ -81,6 +81,7 @@ module.exports = function(app, passport){
 		
 	});
 
+
 	app.get('/usedCars', isLoggedIn, function(req, res){
 		// console.log("cars=");
 		// var cars = json(Car.find({}));

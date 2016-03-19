@@ -1,6 +1,3 @@
-//ssh
-
-
 var express = require('express');
 var app = express();
 var port = process.env.PORT || 8080;
@@ -30,7 +27,7 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 app.use("/styles", express.static(__dirname+'/stylesheets'));
-
+app.use("/scripts", express.static(__dirname+'/javascripts'));
 
 app.set('view engine', 'ejs');
 

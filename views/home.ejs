@@ -38,7 +38,7 @@
 <div class="container">
   Welcome to Toyota Car Manager
 
-  <form method="post" action="/insertCar">
+  <form method="post" action="/insertCar" id="insertForm" class = "insertForm">
     <fieldset>
       <legend>Insert Car:</legend>
       VIN:<br>
@@ -53,13 +53,34 @@
       </select>
       <br>
       Year:<br>
-      <input type="number" name="Year" value="">
+      <input type="number" name="Year" value="" min="1980" max="2017">
       <br>
       Model:<br>
-      <input type="text" name="Model" value="">
+      <select name="Model" id="Model" onLoad="modelChange()" onChange="modelChange()">
+        <option value="Avalon">Avalon</option>
+        <option value="Camry">Camry</option>
+        <option value="Corolla">Corolla</option>
+        <option value="Prius">Prius</option>
+        <option value="Prius c">Prius c</option>
+        <option value="Prius v">Prius v</option>
+        <option value="Yaris">Yaris</option>
+      </select>
       <br>
       Type:<br>
-      <input type="text" name="Type" value="">
+      <select name="Type" id="Type">
+        <option value="XLE">XLE</option>
+        <option value="XLE Plus">XLE Plus</option>
+        <option value="XLE Premium">XLE Premium</option>
+        <option value="Touring">Touring</option>
+        <option value="Limited">Limited</option>
+        <option value="Hybrid XLE Plus">Hybrid XLE Plus</option>
+        <option value="Hybrid XLE Premium
+
+">Hybrid XLE Premium
+
+</option>
+        <option value="Hybrid Limited">Hybrid Limited</option>
+      </select>
       <br>
       Color:<br>
       <input type="text" name="Color" value="">
@@ -72,6 +93,7 @@
     </fieldset>
   </form>
 </div>
-
+  
+    <script src="scripts/scripts.js"></script>
 </body>
 </html>
