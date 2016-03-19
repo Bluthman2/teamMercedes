@@ -39,20 +39,15 @@ module.exports = function(app, passport){
 	// 	failureFlash: true
 	// }));
 
-	app.get('/profile', isLoggedIn, function(req, res){
-		res.render('profile.ejs', { user: req.user });
-	});
+	// app.get('/profile', isLoggedIn, function(req, res){
+	// 	res.render('profile.ejs', { user: req.user });
+	// });
 
 	app.get('/home', isLoggedIn, function(req, res){
 		res.render('home.ejs', { user: req.user });
 	});
 
 	app.get('/newCars', isLoggedIn, function(req, res){
-		// console.log("cars=");
-		// var cars = json(Car.find({}));
-		// prettyPrint(cars);
-		
-		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["New"])
@@ -62,36 +57,23 @@ module.exports = function(app, passport){
 		
 	});
 
-	app.get('/insertCars', isLoggedIn, function(req, res){
+	app.get('/insertCar', isLoggedIn, function(req, res){
 		res.render('insertCars.ejs', { user: req.user });
 	});
 
 	app.post('/insertCar', function(req, res){
-		// console.log("cars=");
-		// var cars = json(Car.find({}));
-		// prettyPrint(cars);
-		
-		// var myOtherVar = JSON.parse('<%-myVar%>');
-
-
-		var cars;
 		var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories) "+
 			"values($1,$2,$3,$4,$5,$6,$7)";
 		db.query(queryString,[req.body.VIN,req.body.Classification,req.body.Year,
 			req.body.Type,req.body.Model,req.body.Color,req.body.Accessories])
 		.then(function(results){
-			res.render('home.ejs', { user: req.user });
+			res.render('insertCars.ejs', { user: req.user });
 		});
 		
 	});
 
 
 	app.get('/usedCars', isLoggedIn, function(req, res){
-		// console.log("cars=");
-		// var cars = json(Car.find({}));
-		// prettyPrint(cars);
-		
-		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["Used"])
@@ -102,16 +84,21 @@ module.exports = function(app, passport){
 	});
 
 	app.get('/auctionCars', isLoggedIn, function(req, res){
-		// console.log("cars=");
-		// var cars = json(Car.find({}));
-		// prettyPrint(cars);
-		
-		// var myOtherVar = JSON.parse('<%-myVar%>');
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["Auction"])
 		.then(function(results){
 			res.render('auctionCars.ejs', { user: req.user, cars: results });
+		});
+		
+	});
+
+	app.get('/junkCars', isLoggedIn, function(req, res){
+		var cars;
+		var queryString = "SELECT * FROM cars WHERE classification = $1";
+		db.query(queryString,["Junk"])
+		.then(function(results){
+			res.render('junkCars.ejs', { user: req.user, cars: results });
 		});
 		
 	});
