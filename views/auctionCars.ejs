@@ -62,6 +62,7 @@
            <td><%= cars[i].type %></td>
            <td><%= cars[i].color %></td>
            <td><%= cars[i].accessories %></td>
+           <td><form method="post" action="/removeAuctionCar/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input type="submit" value="Remove"></td>
         </tr>
         <% } %>
     </tbody>

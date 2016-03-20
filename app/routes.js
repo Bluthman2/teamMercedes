@@ -72,6 +72,19 @@ module.exports = function(app, passport){
 		
 	});
 
+	app.post('/removeNewCar/:vin', function(req, res){
+		console.log(req.params.vin);
+		var queryString = "DELETE from cars WHERE vin = $1";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			var cars;
+			var queryString = "SELECT * FROM cars WHERE classification = $1";
+			db.query(queryString,["New"])
+			.then(function(results){
+				res.render('newCars.ejs', { user: req.user, cars: results });
+			});
+		});
+	});
 
 	app.get('/usedCars', isLoggedIn, function(req, res){
 		var cars;
@@ -81,6 +94,20 @@ module.exports = function(app, passport){
 			res.render('usedCars.ejs', { user: req.user, cars: results });
 		});
 		
+	});
+
+	app.post('/removeUsedCar/:vin', function(req, res){
+		console.log(req.params.vin);
+		var queryString = "DELETE from cars WHERE vin = $1";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			var cars;
+			var queryString = "SELECT * FROM cars WHERE classification = $1";
+			db.query(queryString,["Used"])
+			.then(function(results){
+				res.render('usedCars.ejs', { user: req.user, cars: results });
+			});
+		});
 	});
 
 	app.get('/auctionCars', isLoggedIn, function(req, res){
@@ -93,6 +120,20 @@ module.exports = function(app, passport){
 		
 	});
 
+	app.post('/removeAuctionCar/:vin', function(req, res){
+		console.log(req.params.vin);
+		var queryString = "DELETE from cars WHERE vin = $1";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			var cars;
+			var queryString = "SELECT * FROM cars WHERE classification = $1";
+			db.query(queryString,["Auction"])
+			.then(function(results){
+				res.render('auctionCars.ejs', { user: req.user, cars: results });
+			});
+		});
+	});
+
 	app.get('/junkCars', isLoggedIn, function(req, res){
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
@@ -103,6 +144,20 @@ module.exports = function(app, passport){
 		
 	});
 
+	app.post('/removeJunkCar/:vin', function(req, res){
+		console.log(req.params.vin);
+		var queryString = "DELETE from cars WHERE vin = $1";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			var cars;
+			var queryString = "SELECT * FROM cars WHERE classification = $1";
+			db.query(queryString,["Junk"])
+			.then(function(results){
+				res.render('junkCars.ejs', { user: req.user, cars: results });
+			});
+		});
+	});
+
 	// app.get('/profile', isLoggedIn, function(req, res){
 	// 	console.log("car.count=");
 	// 	prettyPrint(Car.count());
@@ -111,7 +166,7 @@ module.exports = function(app, passport){
 
 
 
-	app.get('/:username/:password', function(req, res){
+	app.get('newUser/:username/:password', function(req, res){
 		var newUser = new User();
 		newUser.local.username = req.params.username;
 		newUser.local.password = req.params.password;
