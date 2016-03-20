@@ -6,8 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
 </head>
 <body>
 
@@ -28,10 +27,10 @@
             <li><a href="/insertCar">Insert Cars</a></li>
             <li><a href="/newCars">New Cars</a></li>
             <li><a href="/usedCars">Used Cars</a></li>
-            <li class="active"><a href="/auctionCars">Auction Cars</a></li>
+            <li><a href="/auctionCars">Auction Cars</a></li>
             <li><a href="/junkCars">Junk Cars</a></li>
             <li><a href="/soldCars">Sold Cars</a></li>
-            <li><a href="/viewMaintenance">Maintenance</a></li>
+            <li class="active"><a href="/viewMaintenance">Maintenance</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/logout">Logout</a></li>
@@ -40,36 +39,29 @@
       </div>
     </nav>
 <div class="container">
-  <h2>Cars</h2>
-  <p>Here are the cars in the database:</p>            
+  <h2>Sold Car Maintenance</h2>
+  <p>Here are maintenance records:</p>            
   <table class="table table-hover">
     <thead>
       <tr>
         <th>VIN</th>
-        <th>Classification</th>
-        <th>Year</th>
-        <th>Model</th>
-        <th>Edition</th>
-        <th>Color</th>
-        <th>Accessories</th>
+        <th>Date</th>
+        <th>Description</th>
       </tr>
     </thead>
     <tbody>
-      <% for(var i=0; i<cars.length; i++) {%>
+      <% for(var i=0; i<records.length; i++) {%>
         <tr>
-           <td><%= cars[i].vin %></td>
-           <td><%= cars[i].classification %></td>
-           <td><%= cars[i].year %></td>
-           <td><%= cars[i].model %></td>
-           <td><%= cars[i].type %></td>
-           <td><%= cars[i].color %></td>
-           <td><%= cars[i].accessories %></td>
-           <td><form method="post" action="/removeAuctionCar/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input type="submit" value="Remove"></td>
+           <td><%= records[i].vin %></td>
+           <td><%= records[i].date %></td>
+           <td><%= records[i].description %></td>
         </tr>
         <% } %>
     </tbody>
   </table>
-</div>
 
+</div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </body>
 </html>

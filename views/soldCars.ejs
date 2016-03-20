@@ -6,8 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
 </head>
 <body>
 
@@ -28,9 +27,9 @@
             <li><a href="/insertCar">Insert Cars</a></li>
             <li><a href="/newCars">New Cars</a></li>
             <li><a href="/usedCars">Used Cars</a></li>
-            <li class="active"><a href="/auctionCars">Auction Cars</a></li>
+            <li><a href="/auctionCars">Auction Cars</a></li>
             <li><a href="/junkCars">Junk Cars</a></li>
-            <li><a href="/soldCars">Sold Cars</a></li>
+            <li class="active"><a href="/soldCars">Sold Cars</a></li>
             <li><a href="/viewMaintenance">Maintenance</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -40,7 +39,7 @@
       </div>
     </nav>
 <div class="container">
-  <h2>Cars</h2>
+  <h2>Sold Cars</h2>
   <p>Here are the cars in the database:</p>            
   <table class="table table-hover">
     <thead>
@@ -64,12 +63,16 @@
            <td><%= cars[i].type %></td>
            <td><%= cars[i].color %></td>
            <td><%= cars[i].accessories %></td>
-           <td><form method="post" action="/removeAuctionCar/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input type="submit" value="Remove"></td>
+           <td><form method="post" action="/removeSoldCar/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input type="submit" value="Remove"></form></td>
+           <td><form method="post" action="/viewMaintenance/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input type="submit" value="Maintenance"></form></td>
+           <td><form method="post" action="/viewOwner/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input type="submit" value="Owner"></form></td>
         </tr>
         <% } %>
     </tbody>
   </table>
-</div>
 
+</div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </body>
 </html>

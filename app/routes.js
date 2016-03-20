@@ -73,7 +73,6 @@ module.exports = function(app, passport){
 	});
 
 	app.post('/removeNewCar/:vin', function(req, res){
-		console.log(req.params.vin);
 		var queryString = "DELETE from cars WHERE vin = $1";
 		db.query(queryString,[req.params.vin])
 		.then(function(results){
@@ -97,7 +96,6 @@ module.exports = function(app, passport){
 	});
 
 	app.post('/removeUsedCar/:vin', function(req, res){
-		console.log(req.params.vin);
 		var queryString = "DELETE from cars WHERE vin = $1";
 		db.query(queryString,[req.params.vin])
 		.then(function(results){
@@ -121,7 +119,6 @@ module.exports = function(app, passport){
 	});
 
 	app.post('/removeAuctionCar/:vin', function(req, res){
-		console.log(req.params.vin);
 		var queryString = "DELETE from cars WHERE vin = $1";
 		db.query(queryString,[req.params.vin])
 		.then(function(results){
@@ -145,7 +142,6 @@ module.exports = function(app, passport){
 	});
 
 	app.post('/removeJunkCar/:vin', function(req, res){
-		console.log(req.params.vin);
 		var queryString = "DELETE from cars WHERE vin = $1";
 		db.query(queryString,[req.params.vin])
 		.then(function(results){
@@ -158,6 +154,59 @@ module.exports = function(app, passport){
 		});
 	});
 
+	app.get('/soldCars', isLoggedIn, function(req, res){
+		var cars;
+		var queryString = "SELECT * FROM cars WHERE classification = $1";
+		db.query(queryString,["Sold"])
+		.then(function(results){
+			res.render('soldCars.ejs', { user: req.user, cars: results });
+		});
+		
+	});
+
+	app.post('/removeSoldCar/:vin', function(req, res){
+		var queryString = "DELETE from cars WHERE vin = $1";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			var cars;
+			var queryString = "SELECT * FROM cars WHERE classification = $1";
+			db.query(queryString,["Sold"])
+			.then(function(results){
+				res.render('soldCars.ejs', { user: req.user, cars: results });
+			});
+		});
+	});
+
+
+	app.get('/viewMaintenance', function(req, res){
+		var queryString = "SELECT * FROM maintenance";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			res.render('maintenance.ejs', { user: req.user, records: results });
+		});
+	});
+
+	app.post('/viewMaintenance/:vin', function(req, res){
+		var queryString = "SELECT * FROM maintenance WHERE vin = $1";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			res.render('maintenance.ejs', { user: req.user, records: results });
+		});
+	});
+
+	app.post('/viewOwner/:vin', function(req, res){
+		console.log(req.params.vin);
+		var queryString = "DELETE from cars WHERE vin = $1";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			var cars;
+			var queryString = "SELECT * FROM cars WHERE classification = $1";
+			db.query(queryString,["Junk"])
+			.then(function(results){
+				res.render('junkCars.ejs', { user: req.user, cars: results });
+			});
+		});
+	});
 	// app.get('/profile', isLoggedIn, function(req, res){
 	// 	console.log("car.count=");
 	// 	prettyPrint(Car.count());
