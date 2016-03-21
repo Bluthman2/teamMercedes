@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Toyota</title>
+  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -20,22 +20,30 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Toyota</a>
+          <a class="navbar-brand" href="#">Project name</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/home">Home</a></li>
-            <li><a href="/insertCar">Insert Cars</a></li>
-            <li><a href="/newCars">New Cars</a></li>
-            <li><a href="/usedCars">Used Cars</a></li>
-            <li class="active"><a href="/auctionCars">Auction Cars</a></li>
-            <li><a href="/junkCars">Junk Cars</a></li>
-            <li><a href="/soldCars">Sold Cars</a></li>
-            <li><a href="/viewMaintenance">Maintenance</a></li>
-            <li><a href="/viewOwners">Owners</a></li>
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="../navbar/">Default</a></li>
+            <li class="active"><a href="./">Static top <span class="sr-only">(current)</span></a></li>
+            <li><a href="../navbar-fixed-top/">Fixed top</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -46,26 +54,17 @@
   <table class="table table-hover">
     <thead>
       <tr>
+        <th>ID</th>
         <th>VIN</th>
-        <th>Classification</th>
-        <th>Year</th>
-        <th>Model</th>
-        <th>Edition</th>
-        <th>Color</th>
-        <th>Accessories</th>
+        <th>Type</th>
       </tr>
     </thead>
     <tbody>
       <% for(var i=0; i<cars.length; i++) {%>
         <tr>
+           <td><%= cars[i].id %></td>
            <td><%= cars[i].vin %></td>
-           <td><%= cars[i].classification %></td>
-           <td><%= cars[i].year %></td>
-           <td><%= cars[i].model %></td>
            <td><%= cars[i].type %></td>
-           <td><%= cars[i].color %></td>
-           <td><%= cars[i].accessories %></td>
-           <td><form method="post" action="/removeCar/<%=cars[i].vin%>/<%=cars[i].classification%>" id="insertForm" class = "insertForm"><input type="submit" value="Remove"></form></td>
         </tr>
         <% } %>
     </tbody>

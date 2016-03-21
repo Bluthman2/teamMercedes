@@ -31,6 +31,7 @@
             <li><a href="/junkCars">Junk Cars</a></li>
             <li><a href="/soldCars">Sold Cars</a></li>
             <li><a href="/viewMaintenance">Maintenance</a></li>
+            <li><a href="/viewOwners">Owners</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/logout">Logout</a></li>
@@ -63,7 +64,7 @@
            <td><%= cars[i].type %></td>
            <td><%= cars[i].color %></td>
            <td><%= cars[i].accessories %></td>
-           <td><form method="post" action="/removeNewCar/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input type="submit" value="Remove"></td>
+           <td><form method="post" action="/removeCar/<%=cars[i].vin%>/<%=cars[i].classification%>" id="insertForm" class = "insertForm"><input type="submit" value="Remove"></form></td>
         </tr>
         <% } %>
     </tbody>

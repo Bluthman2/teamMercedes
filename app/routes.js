@@ -72,17 +72,57 @@ module.exports = function(app, passport){
 		
 	});
 
-	app.post('/removeNewCar/:vin', function(req, res){
-		var queryString = "DELETE from cars WHERE vin = $1";
-		db.query(queryString,[req.params.vin])
-		.then(function(results){
-			var cars;
-			var queryString = "SELECT * FROM cars WHERE classification = $1";
-			db.query(queryString,["New"])
+	app.post('/removeCar/:vin/:classification', function(req, res){
+		if(req.params.classification == "Sold"){
+			var queryString1 = "DELETE from maintenance WHERE vin = $1";
+			db.query(queryString1,[req.params.vin])
 			.then(function(results){
-				res.render('newCars.ejs', { user: req.user, cars: results });
+				var queryString2 = "DELETE from owners WHERE vin = $1";
+				db.query(queryString2,[req.params.vin])
+				.then(function(results){
+					var queryString3 = "DELETE from cars WHERE vin = $1";
+					db.query(queryString3,[req.params.vin])
+					.then(function(results){
+						var queryString4 = "SELECT * FROM cars WHERE classification = $1";
+						db.query(queryString4,["Sold"])
+						.then(function(results){
+							res.render('soldCars.ejs', { user: req.user, cars: results });
+						});
+					});
+				});
 			});
-		});
+		}
+		else{
+			var queryString = "DELETE from cars WHERE vin = $1";
+			db.query(queryString,[req.params.vin])
+			.then(function(results){
+				var queryString = "SELECT * FROM cars WHERE classification = $1";
+				if(req.params.classification == "New"){
+					db.query(queryString,["New"])
+					.then(function(results){
+						res.render('newCars.ejs', { user: req.user, cars: results });
+					});
+				}
+				else if(req.params.classification == "Used"){
+					db.query(queryString,["Used"])
+					.then(function(results){
+						res.render('usedCars.ejs', { user: req.user, cars: results });
+					});
+				}
+				else if(req.params.classification == "Auction"){
+					db.query(queryString,["Auction"])
+					.then(function(results){
+						res.render('auctionCars.ejs', { user: req.user, cars: results });
+					});
+				}
+				else if(req.params.classification == "Junk"){
+					db.query(queryString,["Junk"])
+					.then(function(results){
+						res.render('junkCars.ejs', { user: req.user, cars: results });
+					});
+				}
+			});
+		}
 	});
 
 	app.get('/usedCars', isLoggedIn, function(req, res){
@@ -95,19 +135,6 @@ module.exports = function(app, passport){
 		
 	});
 
-	app.post('/removeUsedCar/:vin', function(req, res){
-		var queryString = "DELETE from cars WHERE vin = $1";
-		db.query(queryString,[req.params.vin])
-		.then(function(results){
-			var cars;
-			var queryString = "SELECT * FROM cars WHERE classification = $1";
-			db.query(queryString,["Used"])
-			.then(function(results){
-				res.render('usedCars.ejs', { user: req.user, cars: results });
-			});
-		});
-	});
-
 	app.get('/auctionCars', isLoggedIn, function(req, res){
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
@@ -116,19 +143,6 @@ module.exports = function(app, passport){
 			res.render('auctionCars.ejs', { user: req.user, cars: results });
 		});
 		
-	});
-
-	app.post('/removeAuctionCar/:vin', function(req, res){
-		var queryString = "DELETE from cars WHERE vin = $1";
-		db.query(queryString,[req.params.vin])
-		.then(function(results){
-			var cars;
-			var queryString = "SELECT * FROM cars WHERE classification = $1";
-			db.query(queryString,["Auction"])
-			.then(function(results){
-				res.render('auctionCars.ejs', { user: req.user, cars: results });
-			});
-		});
 	});
 
 	app.get('/junkCars', isLoggedIn, function(req, res){
@@ -141,19 +155,6 @@ module.exports = function(app, passport){
 		
 	});
 
-	app.post('/removeJunkCar/:vin', function(req, res){
-		var queryString = "DELETE from cars WHERE vin = $1";
-		db.query(queryString,[req.params.vin])
-		.then(function(results){
-			var cars;
-			var queryString = "SELECT * FROM cars WHERE classification = $1";
-			db.query(queryString,["Junk"])
-			.then(function(results){
-				res.render('junkCars.ejs', { user: req.user, cars: results });
-			});
-		});
-	});
-
 	app.get('/soldCars', isLoggedIn, function(req, res){
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
@@ -164,23 +165,9 @@ module.exports = function(app, passport){
 		
 	});
 
-	app.post('/removeSoldCar/:vin', function(req, res){
-		var queryString = "DELETE from cars WHERE vin = $1";
-		db.query(queryString,[req.params.vin])
-		.then(function(results){
-			var cars;
-			var queryString = "SELECT * FROM cars WHERE classification = $1";
-			db.query(queryString,["Sold"])
-			.then(function(results){
-				res.render('soldCars.ejs', { user: req.user, cars: results });
-			});
-		});
-	});
-
-
 	app.get('/viewMaintenance', function(req, res){
 		var queryString = "SELECT * FROM maintenance";
-		db.query(queryString,[req.params.vin])
+		db.query(queryString)
 		.then(function(results){
 			res.render('maintenance.ejs', { user: req.user, records: results });
 		});
@@ -194,26 +181,20 @@ module.exports = function(app, passport){
 		});
 	});
 
-	app.post('/viewOwner/:vin', function(req, res){
-		console.log(req.params.vin);
-		var queryString = "DELETE from cars WHERE vin = $1";
-		db.query(queryString,[req.params.vin])
+	app.get('/viewOwners', function(req, res){
+		var queryString = "SELECT * FROM owners";
+		db.query(queryString)
 		.then(function(results){
-			var cars;
-			var queryString = "SELECT * FROM cars WHERE classification = $1";
-			db.query(queryString,["Junk"])
-			.then(function(results){
-				res.render('junkCars.ejs', { user: req.user, cars: results });
-			});
+			res.render('owners.ejs', { user: req.user, records: results });
 		});
 	});
-	// app.get('/profile', isLoggedIn, function(req, res){
-	// 	console.log("car.count=");
-	// 	prettyPrint(Car.count());
-	// 	res.render('table.ejs', { user: req.user, count: {count: Car.count()}, cars: Car.find({}) });
-	// });
-
-
+	app.post('/viewOwners/:vin', function(req, res){
+		var queryString = "SELECT * FROM owners WHERE vin = $1";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			res.render('owners.ejs', { user: req.user, records: results });
+		});
+	});
 
 	app.get('newUser/:username/:password', function(req, res){
 		var newUser = new User();

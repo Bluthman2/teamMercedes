@@ -30,8 +30,8 @@
             <li><a href="/auctionCars">Auction Cars</a></li>
             <li><a href="/junkCars">Junk Cars</a></li>
             <li><a href="/soldCars">Sold Cars</a></li>
-            <li class="active"><a href="/viewMaintenance">Maintenance</a></li>
-            <li><a href="/viewOwners">Owners</a></li>
+            <li><a href="/viewMaintenance">Maintenance</a></li>
+            <li class="active"><a href="/viewOwners">Owners</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/logout">Logout</a></li>
@@ -40,22 +40,26 @@
       </div>
     </nav>
 <div class="container">
-  <h2>Sold Car Maintenance</h2>
+  <h2>Sold Car Owners</h2>
   <p>Here are maintenance records:</p>            
   <table class="table table-hover">
     <thead>
       <tr>
         <th>VIN</th>
-        <th>Date</th>
-        <th>Description</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Phone Number</th>
+        <th>Email</th>
       </tr>
     </thead>
     <tbody>
       <% for(var i=0; i<records.length; i++) {%>
         <tr>
            <td><%= records[i].vin %></td>
-           <td><%= records[i].date %></td>
-           <td><%= records[i].description %></td>
+           <td><%= records[i].first_name %></td>
+           <td><%= records[i].last_name %></td>
+           <td><%= records[i].phone_number %></td>
+           <td><%= records[i].email %></td>
         </tr>
         <% } %>
     </tbody>
