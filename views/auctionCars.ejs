@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/styles/cars.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
@@ -26,11 +27,7 @@
           <ul class="nav navbar-nav">
             <li><a href="/home">Home</a></li>
             <li><a href="/insertCar">Insert Cars</a></li>
-            <li><a href="/newCars">New Cars</a></li>
-            <li><a href="/usedCars">Used Cars</a></li>
-            <li class="active"><a href="/auctionCars">Auction Cars</a></li>
-            <li><a href="/junkCars">Junk Cars</a></li>
-            <li><a href="/soldCars">Sold Cars</a></li>
+            <li class="active"><a href="/newCars">Cars</a></li>
             <li><a href="/viewMaintenance">Maintenance</a></li>
             <li><a href="/viewOwners">Owners</a></li>
           </ul>
@@ -41,8 +38,18 @@
       </div>
     </nav>
 <div class="container">
-  <h2>Cars</h2>
-  <p>Here are the cars in the database:</p>            
+  <div class="masthead">
+    <nav>
+      <ul class="nav nav-justified">
+        <li><a href="/newCars">New Cars</a></li>
+        <li><a href="/usedCars">Used Cars</a></li>
+        <li class="active"><a href="/auctionCars">Auction Cars</a></li>
+        <li><a href="/junkCars">Junk Cars</a></li>
+        <li><a href="/soldCars">Sold Cars</a></li>
+      </ul>
+    </nav>
+  </div>   
+  <h2></h2>         
   <table class="table table-hover">
     <thead>
       <tr>

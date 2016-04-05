@@ -1,4 +1,4 @@
-<!-- views/table.ejs -->
+<!-- views/home.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,12 +26,8 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/home">Home</a></li>
             <li><a href="/insertCar">Insert Cars</a></li>
-            <li><a href="/newCars">New Cars</a></li>
-            <li><a href="/usedCars">Used Cars</a></li>
-            <li><a href="/auctionCars">Auction Cars</a></li>
-            <li><a href="/junkCars">Junk Cars</a></li>
-            <li><a href="/soldCars">Sold Cars</a></li>
-            <li><a href="/viewMaintenance">Maintenance</a></li>
+            <li><a href="/newCars">Cars</a></li>
+            <li><a href="/viewMaintenance">Maintenance</a></li> 
             <li><a href="/viewOwners">Owners</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -42,6 +38,56 @@
     </nav>
 <div class="container">
   Welcome to Toyota Car Manager
+  <form method="post" action="/searchCar" id="searchForm" class = "searchForm">
+    <fieldset>
+      <legend>Search:</legend>
+      VIN:<br>
+      <input type="number" name="VIN" value="" min="0">
+      <br>
+      Classification:<br>
+      <select name="Classification">
+        <option value="New">New</option>
+        <option value="Used">Used</option>
+        <option value="Auction">Auction</option>
+        <option value="Junk">Junk</option>
+      </select>
+      <br>
+      Year:<br>
+      <input type="number" name="Year" value="" min="1980" max="2017">
+      <br>
+      Model:<br>
+      <select name="Model" id="Model" onLoad="modelChange()" onChange="modelChange()">
+        <option value="Avalon">Avalon</option>
+        <option value="Camry">Camry</option>
+        <option value="Corolla">Corolla</option>
+        <option value="Prius">Prius</option>
+        <option value="Prius c">Prius c</option>
+        <option value="Prius v">Prius v</option>
+        <option value="Yaris">Yaris</option>
+      </select>
+      <br>
+      Type:<br>
+      <select name="Type" id="Type">
+        <option value="XLE">XLE</option>
+        <option value="XLE Plus">XLE Plus</option>
+        <option value="XLE Premium">XLE Premium</option>
+        <option value="Touring">Touring</option>
+        <option value="Limited">Limited</option>
+        <option value="Hybrid XLE Plus">Hybrid XLE Plus</option>
+        <option value="Hybrid XLE Premium">Hybrid XLE Premium</option>
+        <option value="Hybrid Limited">Hybrid Limited</option>
+      </select>
+      <br>
+      Color:<br>
+      <input type="text" name="Color" value="">
+      <br>
+      Accessories:<br>
+      <input type="text" name="Accessories" value="">
+      <br><br>
+
+      <input type="submit" value="Submit">
+    </fieldset>
+  </form>
 </div>
 
   
