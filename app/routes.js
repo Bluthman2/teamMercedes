@@ -47,6 +47,15 @@ module.exports = function(app, passport){
 		res.render('home.ejs', { user: req.user });
 	});
 
+	app.get('/cars', isLoggedIn, function(req, res){
+		var cars;
+		var queryString = "SELECT * FROM cars";
+		db.query(queryString)
+		.then(function(results){
+			res.render('cars.ejs', { user: req.user, cars: results });
+		});
+	});
+
 	app.get('/newCars', isLoggedIn, function(req, res){
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
