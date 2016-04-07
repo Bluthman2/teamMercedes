@@ -56,6 +56,62 @@ module.exports = function(app, passport){
 		});
 	});
 
+	app.post('/cars', isLoggedIn, function(req, res){
+		var cars;
+		var num = 0;
+		console.log("clas="+req.body.Classification);
+		var queryString = "SELECT * FROM cars WHERE";
+		if(req.body.VIN != ""){
+			queryString += " VIN = " + req.body.VIN;
+			num++;
+		}
+		if(req.body.Classification != ""){
+			if(num > 0){
+				queryString+= " AND classification = '" + req.body.Classification + "'";
+				num++;
+			}
+			else{
+				queryString+= " classification = '" + req.body.Classification + "'";
+				num++;
+			}
+		}
+		if(req.body.Year != ""){
+			if(num > 0){
+				queryString+= " AND year = " + req.body.Year;
+				num++;
+			}
+			else{
+				queryString+= " year = " + req.body.Year;
+				num++;
+			}
+		}
+		if(req.body.Model != ""){
+			if(num > 0){
+				queryString+= " AND model = '" + req.body.Model + "'";
+				num++;
+			}
+			else{
+				queryString+= " model = '" + req.body.Model + "'";
+				num++;
+			}
+		}
+		if(req.body.Type != ""){
+			if(num > 0){
+				queryString+= " AND type = '" + req.body.Type + "'";
+				num++;
+			}
+			else{
+				queryString+= " type = '" + req.body.Type + "'";
+				num++;
+			}
+		}
+		console.log(queryString);
+		db.query(queryString)
+		.then(function(results){
+			res.render('cars.ejs', { user: req.user, cars: results });
+		});
+	});
+
 	app.get('/newCars', isLoggedIn, function(req, res){
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";

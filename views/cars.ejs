@@ -1,7 +1,7 @@
 <!-- views/table.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
   <title>Toyota</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +20,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Toyota</a>
+          <a class="navbar-brand" href="/home">Toyota</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -49,7 +49,50 @@
       </ul>
     </nav>
   </div>
-  <h2></h2>          
+  <h2></h2>      
+  <form method="post" action="/cars" id="searchForm" class = "searchForm">
+    <fieldset>
+      <legend>Search:</legend>
+      VIN
+      <input type="number" name="VIN" value="" min="0">
+      Classification:
+      <select id="Classification" name="Classification">
+        <option value=""></option>
+        <option value="New">New</option>
+        <option value="Used">Used</option>
+        <option value="Auction">Auction</option>
+        <option value="Junk">Junk</option>
+        <option value="Sold">Sold</option>
+      </select>
+      Year:
+      <input type="number" name="Year" value="" min="1980" max="2017">
+      Model:
+      <select name="Model" id="Model" onLoad="modelChange2()" onChange="modelChange2()">
+        <option value=""></option>
+        <option value="Avalon">Avalon</option>
+        <option value="Camry">Camry</option>
+        <option value="Corolla">Corolla</option>
+        <option value="Prius">Prius</option>
+        <option value="Prius c">Prius c</option>
+        <option value="Prius v">Prius v</option>
+        <option value="Yaris">Yaris</option>
+      </select>
+      Type:
+      <select name="Type" id="Type">
+        <option value=""></option>
+        <option value="XLE">XLE</option>
+        <option value="XLE Plus">XLE Plus</option>
+        <option value="XLE Premium">XLE Premium</option>
+        <option value="Touring">Touring</option>
+        <option value="Limited">Limited</option>
+        <option value="Hybrid XLE Plus">Hybrid XLE Plus</option>
+        <option value="Hybrid XLE Premium">Hybrid XLE Premium</option>
+        <option value="Hybrid Limited">Hybrid Limited</option>
+      </select>
+      <input type="submit" value="Search">
+      <h2></h2>   
+    </fieldset>
+  </form>    
   <table class="table table-hover">
     <thead>
       <tr>
@@ -65,21 +108,22 @@
     <tbody>
       <% for(var i=0; i<cars.length; i++) {%>
         <tr>
-           <td><%= cars[i].vin %></td>
-           <td><%= cars[i].classification %></td>
-           <td><%= cars[i].year %></td>
-           <td><%= cars[i].model %></td>
-           <td><%= cars[i].type %></td>
-           <td><%= cars[i].color %></td>
-           <td><%= cars[i].accessories %></td>
-           <td><form method="post" action="/removeCar/<%=cars[i].vin%>/<%=cars[i].classification%>" id="insertForm" class = "insertForm"><input type="submit" value="Remove"></form></td>
+          <td><%= cars[i].vin %></td>
+          <td><%= cars[i].classification %></td>
+          <td><%= cars[i].year %></td>
+          <td><%= cars[i].model %></td>
+          <td><%= cars[i].type %></td>
+          <td><%= cars[i].color %></td>
+          <td><%= cars[i].accessories %></td>
+          <td><form method="post" action="/removeCar/<%=cars[i].vin%>/<%=cars[i].classification%>" id="insertForm" class = "insertForm"><input type="submit" value="Remove"></form></td>
         </tr>
-        <% } %>
+      <% } %>
     </tbody>
   </table>
 
 </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="scripts/scripts.js"></script>
 </body>
 </html>
