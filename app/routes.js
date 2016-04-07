@@ -62,7 +62,7 @@ module.exports = function(app, passport){
 		console.log("clas="+req.body.Classification);
 		var queryString = "SELECT * FROM cars";
 		if(req.body.VIN != ""){
-			queryString += " VIN = " + req.body.VIN;
+			queryString += " WHERE VIN = " + req.body.VIN;
 			num++;
 		}
 		if(req.body.Classification != ""){
