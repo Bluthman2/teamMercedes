@@ -60,7 +60,7 @@ module.exports = function(app, passport){
 		var cars;
 		var num = 0;
 		console.log("clas="+req.body.Classification);
-		var queryString = "SELECT * FROM cars WHERE";
+		var queryString = "SELECT * FROM cars";
 		if(req.body.VIN != ""){
 			queryString += " VIN = " + req.body.VIN;
 			num++;
@@ -71,7 +71,7 @@ module.exports = function(app, passport){
 				num++;
 			}
 			else{
-				queryString+= " classification = '" + req.body.Classification + "'";
+				queryString+= " WHERE classification = '" + req.body.Classification + "'";
 				num++;
 			}
 		}
@@ -81,7 +81,7 @@ module.exports = function(app, passport){
 				num++;
 			}
 			else{
-				queryString+= " year = " + req.body.Year;
+				queryString+= " WHERE year = " + req.body.Year;
 				num++;
 			}
 		}
@@ -91,7 +91,7 @@ module.exports = function(app, passport){
 				num++;
 			}
 			else{
-				queryString+= " model = '" + req.body.Model + "'";
+				queryString+= " WHERE model = '" + req.body.Model + "'";
 				num++;
 			}
 		}
@@ -101,7 +101,7 @@ module.exports = function(app, passport){
 				num++;
 			}
 			else{
-				queryString+= " type = '" + req.body.Type + "'";
+				queryString+= " WHERE type = '" + req.body.Type + "'";
 				num++;
 			}
 		}

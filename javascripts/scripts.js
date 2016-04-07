@@ -58,7 +58,10 @@ function modelChange() {
 }
 function modelChange2() {
 	document.getElementById("Type").options.length = 0;
-	if(document.getElementById("Model").value == "Avalon"){
+	if(document.getElementById("Model").value == ""){
+		document.getElementById("Type").appendChild(new Option("", ""));
+	}
+	else if(document.getElementById("Model").value == "Avalon"){
 		document.getElementById("Type").appendChild(new Option("", ""));
 		document.getElementById("Type").appendChild(new Option("XLE", "XLE"));
 		document.getElementById("Type").appendChild(new Option("XLE Plus", "XLE Plus"));
