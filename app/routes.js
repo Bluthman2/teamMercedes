@@ -22,6 +22,7 @@ module.exports = function(app, passport){
 	app.get('/login', function(req, res){
 		res.render('login.ejs', { message: req.flash('loginMessage') });
 	});
+
 	app.post('/login', passport.authenticate('local-login', {
 		successRedirect: '/home', //profile
 		failureRedirect: '/login',
@@ -39,9 +40,9 @@ module.exports = function(app, passport){
 	// 	failureFlash: true
 	// }));
 
-	// app.get('/profile', isLoggedIn, function(req, res){
-	// 	res.render('profile.ejs', { user: req.user });
-	// });
+	app.get('/profile', isLoggedIn, function(req, res){
+		res.render('profile.ejs', { user: req.user });
+	});
 
 	app.get('/home', isLoggedIn, function(req, res){
 		res.render('home.ejs', { user: req.user });
@@ -112,12 +113,21 @@ module.exports = function(app, passport){
 		});
 	});
 
+	app.post('/moreInfo/:vin', function(req, res){
+		var queryString = "SELECT * FROM cars WHERE VIN = $1";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			res.render('moreInfo.ejs', { user: req.user, cars: results });
+		});
+		
+	});
+
 	app.get('/newCars', isLoggedIn, function(req, res){
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["New"])
 		.then(function(results){
-			res.render('newCars.ejs', { user: req.user, cars: results });
+			res.render('newCars.ejs', { user: req.user, cars: results, message: "" });
 		});
 		
 	});
@@ -137,56 +147,95 @@ module.exports = function(app, passport){
 		
 	});
 
-	app.post('/removeCar/:vin/:classification', function(req, res){
-		if(req.params.classification == "Sold"){
-			var queryString1 = "DELETE from maintenance WHERE vin = $1";
-			db.query(queryString1,[req.params.vin])
-			.then(function(results){
-				var queryString2 = "DELETE from owners WHERE vin = $1";
-				db.query(queryString2,[req.params.vin])
+	app.post('/removeCar/:vin/:classification', isLoggedIn, function(req, res){
+		console.log("user="+req.user);
+		if(req.user.local.admin == true){
+			if(req.params.classification == "Sold"){
+				var queryString1 = "DELETE from maintenance WHERE vin = $1";
+				db.query(queryString1,[req.params.vin])
 				.then(function(results){
-					var queryString3 = "DELETE from cars WHERE vin = $1";
-					db.query(queryString3,[req.params.vin])
+					var queryString2 = "DELETE from owners WHERE vin = $1";
+					db.query(queryString2,[req.params.vin])
 					.then(function(results){
-						var queryString4 = "SELECT * FROM cars WHERE classification = $1";
-						db.query(queryString4,["Sold"])
+						var queryString3 = "DELETE from cars WHERE vin = $1";
+						db.query(queryString3,[req.params.vin])
 						.then(function(results){
-							res.render('soldCars.ejs', { user: req.user, cars: results });
+							var queryString4 = "SELECT * FROM cars WHERE classification = $1";
+							db.query(queryString4,["Sold"])
+							.then(function(results){
+								res.render('soldCars.ejs', { user: req.user, cars: results, message: ""  });
+							});
 						});
 					});
 				});
-			});
+			}
+			else{
+				var queryString = "DELETE from cars WHERE vin = $1";
+				db.query(queryString,[req.params.vin])
+				.then(function(results){
+					var queryString = "SELECT * FROM cars WHERE classification = $1";
+					if(req.params.classification == "New"){
+						db.query(queryString,["New"])
+						.then(function(results){
+							res.render('newCars.ejs', { user: req.user, cars: results, message: ""  });
+						});
+					}
+					else if(req.params.classification == "Used"){
+						db.query(queryString,["Used"])
+						.then(function(results){
+							res.render('usedCars.ejs', { user: req.user, cars: results, message: ""  });
+						});
+					}
+					else if(req.params.classification == "Auction"){
+						db.query(queryString,["Auction"])
+						.then(function(results){
+							res.render('auctionCars.ejs', { user: req.user, cars: results, message: ""  });
+						});
+					}
+					else if(req.params.classification == "Junk"){
+						db.query(queryString,["Junk"])
+						.then(function(results){
+							res.render('junkCars.ejs', { user: req.user, cars: results, message: ""  });
+						});
+					}
+				});
+			}
 		}
 		else{
-			var queryString = "DELETE from cars WHERE vin = $1";
-			db.query(queryString,[req.params.vin])
-			.then(function(results){
-				var queryString = "SELECT * FROM cars WHERE classification = $1";
-				if(req.params.classification == "New"){
-					db.query(queryString,["New"])
-					.then(function(results){
-						res.render('newCars.ejs', { user: req.user, cars: results });
-					});
-				}
-				else if(req.params.classification == "Used"){
-					db.query(queryString,["Used"])
-					.then(function(results){
-						res.render('usedCars.ejs', { user: req.user, cars: results });
-					});
-				}
-				else if(req.params.classification == "Auction"){
-					db.query(queryString,["Auction"])
-					.then(function(results){
-						res.render('auctionCars.ejs', { user: req.user, cars: results });
-					});
-				}
-				else if(req.params.classification == "Junk"){
-					db.query(queryString,["Junk"])
-					.then(function(results){
-						res.render('junkCars.ejs', { user: req.user, cars: results });
-					});
-				}
-			});
+			console.log("got here="+req.params.classification);
+			var queryString = "SELECT * FROM cars WHERE classification = $1";
+			if(req.params.classification == "New"){
+				db.query(queryString,["New"])
+				.then(function(results){
+					res.render('newCars.ejs', { user: req.user, cars: results, message: "You do not have permission to remove vehicles." });
+				});
+			}
+			else if(req.params.classification == "Used"){
+				db.query(queryString,["Used"])
+				.then(function(results){
+					res.render('usedCars.ejs', { user: req.user, cars: results, message: "You do not have permission to remove vehicles." });
+				});
+			}
+			else if(req.params.classification == "Auction"){
+				db.query(queryString,["Auction"])
+				.then(function(results){
+					res.render('auctionCars.ejs', { user: req.user, cars: results, message: "You do not have permission to remove vehicles." });
+				});
+			}
+			else if(req.params.classification == "Junk"){
+				db.query(queryString,["Junk"])
+				.then(function(results){
+					res.render('junkCars.ejs', { user: req.user, cars: results, message: "You do not have permission to remove vehicles." });
+				});
+			}
+			else if(req.params.classification == "Sold"){
+				console.log("got here too");
+				var queryString4 = "SELECT * FROM cars WHERE classification = $1";
+				db.query(queryString4,["Sold"])
+				.then(function(results){
+					res.render('soldCars.ejs', { user: req.user, cars: results, message: "You do not have permission to remove vehicles." });
+				});
+			}
 		}
 	});
 
@@ -195,7 +244,7 @@ module.exports = function(app, passport){
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["Used"])
 		.then(function(results){
-			res.render('usedCars.ejs', { user: req.user, cars: results });
+			res.render('usedCars.ejs', { user: req.user, cars: results, message: "" });
 		});
 		
 	});
@@ -205,7 +254,7 @@ module.exports = function(app, passport){
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["Auction"])
 		.then(function(results){
-			res.render('auctionCars.ejs', { user: req.user, cars: results });
+			res.render('auctionCars.ejs', { user: req.user, cars: results, message: "" });
 		});
 		
 	});
@@ -215,7 +264,7 @@ module.exports = function(app, passport){
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["Junk"])
 		.then(function(results){
-			res.render('junkCars.ejs', { user: req.user, cars: results });
+			res.render('junkCars.ejs', { user: req.user, cars: results, message: "" });
 		});
 		
 	});
@@ -225,7 +274,7 @@ module.exports = function(app, passport){
 		var queryString = "SELECT * FROM cars WHERE classification = $1";
 		db.query(queryString,["Sold"])
 		.then(function(results){
-			res.render('soldCars.ejs', { user: req.user, cars: results });
+			res.render('soldCars.ejs', { user: req.user, cars: results, message: "" });
 		});
 		
 	});
@@ -280,9 +329,11 @@ module.exports = function(app, passport){
 };
 
 function isLoggedIn(req, res, next) {
+	console.log("called isLoggedIn");
 	if(req.isAuthenticated()){
 		return next();
 	}
 
 	res.redirect('/login');
 }
+
