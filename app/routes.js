@@ -40,9 +40,9 @@ module.exports = function(app, passport){
 	// 	failureFlash: true
 	// }));
 
-	app.get('/profile', isLoggedIn, function(req, res){
-		res.render('profile.ejs', { user: req.user });
-	});
+	// app.get('/profile', isLoggedIn, function(req, res){
+	// 	res.render('profile.ejs', { user: req.user });
+	// });
 
 	app.get('/home', isLoggedIn, function(req, res){
 		res.render('home.ejs', { user: req.user });
@@ -148,7 +148,6 @@ module.exports = function(app, passport){
 	});
 
 	app.post('/removeCar/:vin/:classification', isLoggedIn, function(req, res){
-		console.log("user="+req.user);
 		if(req.user.local.admin == true){
 			if(req.params.classification == "Sold"){
 				var queryString1 = "DELETE from maintenance WHERE vin = $1";
@@ -202,7 +201,6 @@ module.exports = function(app, passport){
 			}
 		}
 		else{
-			console.log("got here="+req.params.classification);
 			var queryString = "SELECT * FROM cars WHERE classification = $1";
 			if(req.params.classification == "New"){
 				db.query(queryString,["New"])
@@ -229,7 +227,6 @@ module.exports = function(app, passport){
 				});
 			}
 			else if(req.params.classification == "Sold"){
-				console.log("got here too");
 				var queryString4 = "SELECT * FROM cars WHERE classification = $1";
 				db.query(queryString4,["Sold"])
 				.then(function(results){
