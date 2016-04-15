@@ -321,7 +321,11 @@ module.exports = function(app, passport){
 				});
 			}
 			else{
-				res.render('maintenance.ejs', { user: req.user, records: results, vin:"",message: "VIN does not exist.", flag: "bad" });
+				var queryString = "SELECT * FROM maintenance";
+				db.query(queryString)
+				.then(function(results){
+					res.render('maintenance.ejs', { user: req.user, records: results, vin:"",message: "VIN does not exist.", flag: "bad" });
+				});
 			}
 		});
 	});
