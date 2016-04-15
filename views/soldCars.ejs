@@ -75,9 +75,10 @@
            <td><%= cars[i].type %></td>
            <td><%= cars[i].color %></td>
            <td><%= cars[i].accessories %></td>
-           <td><form method="post" action="/removeCar/<%=cars[i].vin%>/<%=cars[i].classification%>" id="insertForm" class = "insertForm"><input type="submit" value="Remove"></form></td>
-           <td><form method="post" action="/viewMaintenance/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input type="submit" value="Maintenance"></form></td>
-           <td><form method="post" action="/viewOwners/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input type="submit" value="Owner"></form></td>
+           <td><form method="post" action="/removeCar/<%=cars[i].vin%>/<%=cars[i].classification%>" id="insertForm" class = "insertForm"><input class="btn btn-default btn-sm btn-danger" type="submit" value="Remove"></form></td>
+           <td><form method="post" action="/viewMaintenance/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input class="btn btn-default btn-sm" type="submit" value="Maintenance"></form></td>
+           <td><form method="post" action="/viewOwners/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input class="btn btn-default btn-sm" type="submit" value="Owner"></form></td>
+           <td><form method="post" action="/moreInfo/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input class="btn btn-default btn-sm" type="submit" value="Show More"></form></td>
         </tr>
         <% } %>
     </tbody>
