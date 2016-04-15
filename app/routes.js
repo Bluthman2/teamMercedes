@@ -133,18 +133,26 @@ module.exports = function(app, passport){
 	});
 
 	app.get('/insertCar', isLoggedIn, function(req, res){
-		res.render('insertCars.ejs', { user: req.user });
+		res.render('insertCars.ejs', { user: req.user, message: "" });
 	});
 
 	app.post('/insertCar', function(req, res){
-		var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories) "+
-			"values($1,$2,$3,$4,$5,$6,$7)";
-		db.query(queryString,[req.body.VIN,req.body.Classification,req.body.Year,
-			req.body.Type,req.body.Model,req.body.Color,req.body.Accessories])
+		var queryString1 = "SELECT * FROM cars WHERE VIN = $1";
+		db.query(queryString1,[req.body.VIN])
 		.then(function(results){
-			res.render('insertCars.ejs', { user: req.user });
-		});
-		
+			if(results.length > 0){
+				res.render('insertCars.ejs', { user: req.user, message: "That VIN number already exists."  });	
+			}
+			else{
+				var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories) "+
+				"values($1,$2,$3,$4,$5,$6,$7)";
+				db.query(queryString,[req.body.VIN,req.body.Classification,req.body.Year,
+					req.body.Type,req.body.Model,req.body.Color,req.body.Accessories])
+				.then(function(results){
+					res.render('insertCars.ejs', { user: req.user, message: ""  });
+				});
+			}
+		});		
 	});
 
 	app.post('/removeCar/:vin/:classification', isLoggedIn, function(req, res){

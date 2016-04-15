@@ -38,6 +38,9 @@
     </div>
   </nav>
   <div class="container">
+    <% if (message.length > 0) { %>
+      <div class="alert alert-danger"><%= message %></div>
+    <% } %>     
     <form method="post" action="/insertCar" id="insertForm" class = "insertForm">
       <fieldset>
         <legend>Insert Car:</legend>
