@@ -35,30 +35,50 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-<div class="container">
-  <h2>Sold Car Maintenance</h2>
-  <p>Here are maintenance records:</p>            
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>VIN</th>
-        <th>Date</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% for(var i=0; i<records.length; i++) {%>
+  <div class="container">
+    <h2>Sold Car Maintenance</h2>
+    <% if (message.length > 0 && flag == "bad") { %>
+      <div class="alert alert-danger"><%= message %></div>
+    <% } %>
+    <% if (message.length > 0 && flag == "good") { %>
+      <div class="alert alert-success"><%= message %></div>
+    <% } %>
+    <form method="post" action="/addMaintenance" id="maintenanceForm" class = "maintenanceForm">
+      <fieldset>
+        <legend>Insert Maintenance Record:</legend>
+        VIN
+        <input type="text" name="vin" value=<%= vin %>>
+        Date:
+        <input type="date" id="theDate" name="Date">
+        Details:
+        <input type="text" name="Details" value="">
+        <input type="submit" value="Submit">
+        <h2></h2>   
+      </fieldset>
+    </form>             
+    <table class="table table-hover">
+      <thead>
         <tr>
-           <td><%= records[i].vin %></td>
-           <td><%= records[i].date %></td>
-           <td><%= records[i].description %></td>
+          <th>VIN</th>
+          <th>Date</th>
+          <th>Description</th>
         </tr>
-        <% } %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% for(var i=0; i<records.length; i++) {%>
+          <tr>
+             <td><%= records[i].vin %></td>
+             <td><%= records[i].date.toUTCString().substring(0, 16) %></td>
+             <td><%= records[i].description %></td>
+             <td><form method="post" action="/removeMaintenance/<%= records[i].id%>" id="insertForm" class = "insertForm"><input class="btn btn-default btn-sm btn-danger" type="submit" value="Remove"></form></td>
+          </tr>
+          <% } %>
+      </tbody>
+    </table>
 
-</div>
+  </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="scripts/scripts_maintenance.js"></script>
 </body>
 </html>

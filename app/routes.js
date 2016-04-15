@@ -63,7 +63,7 @@ module.exports = function(app, passport){
 		console.log("clas="+req.body.Classification);
 		var queryString = "SELECT * FROM cars";
 		if(req.body.VIN != ""){
-			queryString += " WHERE VIN = " + req.body.VIN;
+			queryString += " WHERE VIN = '" + req.body.VIN + "'";
 			num++;
 		}
 		if(req.body.Classification != ""){
@@ -141,7 +141,10 @@ module.exports = function(app, passport){
 		db.query(queryString1,[req.body.VIN])
 		.then(function(results){
 			if(results.length > 0){
-				res.render('insertCars.ejs', { user: req.user, message: "That VIN number already exists."  });	
+				res.render('insertCars.ejs', { user: req.user, message: "That VIN number already exists."});	
+			}
+			else if(req.body.VIN.length != 17){
+				res.render('insertCars.ejs', { user: req.user, message: "Incorrect VIN format. Example: 1HGBH41JXMN109186"});	
 			}
 			else{
 				var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories) "+
@@ -288,7 +291,7 @@ module.exports = function(app, passport){
 		var queryString = "SELECT * FROM maintenance";
 		db.query(queryString)
 		.then(function(results){
-			res.render('maintenance.ejs', { user: req.user, records: results });
+			res.render('maintenance.ejs', { user: req.user, records: results, vin:"", message: "", flag: "good"  });
 		});
 	});
 
@@ -296,8 +299,48 @@ module.exports = function(app, passport){
 		var queryString = "SELECT * FROM maintenance WHERE vin = $1";
 		db.query(queryString,[req.params.vin])
 		.then(function(results){
-			res.render('maintenance.ejs', { user: req.user, records: results });
+			res.render('maintenance.ejs', { user: req.user, records: results, vin:req.params.vin, message: "", flag: "good"  });
 		});
+	});
+
+	app.post('/addMaintenance', function(req, res){
+		var queryString = "SELECT * FROM cars WHERE vin = $1";
+		db.query(queryString,[req.body.vin])
+		.then(function(results){
+			if(results.length > 0){
+				var queryString = "INSERT INTO maintenance(VIN,date,description) "+
+				"values($1,$2,$3)";
+				console.log("date="+req.body.Date);
+				db.query(queryString,[req.body.vin,req.body.Date,req.body.Details])
+				.then(function(results){
+					var queryString = "SELECT * FROM maintenance WHERE vin = $1";
+					db.query(queryString,[req.body.vin])
+					.then(function(results){
+						res.render('maintenance.ejs', { user: req.user, records: results, vin:req.params.vin, message: "Successfully added new record.", flag: "good"  });
+					});
+				});
+			}
+			else{
+				res.render('maintenance.ejs', { user: req.user, records: results, vin:"",message: "VIN does not exist.", flag: "bad" });
+			}
+		});
+	});
+
+	app.post('/removeMaintenance/:id', isLoggedIn, function(req, res){
+		if(req.user.local.admin == true){
+			var queryString1 = "DELETE from maintenance WHERE id = $1";
+				db.query(queryString1,[req.params.id])
+				.then(function(results){
+					res.redirect('/viewMaintenance');
+				});
+		}
+		else{
+			var queryString = "SELECT * FROM maintenance";
+			db.query(queryString,[req.body.vin])
+			.then(function(results){
+				res.render('maintenance.ejs', { user: req.user, records: results, vin:"", message: "You do not have permission to remove records.", flag: "bad" });
+			});
+		}
 	});
 
 	app.get('/viewOwners', function(req, res){
