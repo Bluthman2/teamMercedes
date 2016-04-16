@@ -37,7 +37,12 @@
     </nav>
 <div class="container">
   <h2>Sold Car Owners</h2>
-  <p>Here are owner records:</p>            
+  <% if (message.length > 0 && flag == "bad") { %>
+      <div class="alert alert-danger"><%= message %></div>
+  <% } %>
+  <% if (message.length > 0 && flag == "good") { %>
+    <div class="alert alert-success"><%= message %></div>
+  <% } %>                
   <table class="table table-hover">
     <thead>
       <tr>

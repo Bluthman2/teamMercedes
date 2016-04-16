@@ -117,7 +117,7 @@ module.exports = function(app, passport){
 		var queryString = "SELECT * FROM cars WHERE VIN = $1";
 		db.query(queryString,[req.params.vin])
 		.then(function(results){
-			res.render('moreInfo.ejs', { user: req.user, cars: results });
+			res.render('moreInfo.ejs', { user: req.user, cars: results, message: "" });
 		});
 		
 	});
@@ -144,7 +144,7 @@ module.exports = function(app, passport){
 				res.render('insertCars.ejs', { user: req.user, message: "That VIN number already exists."});	
 			}
 			else if(req.body.VIN.length != 17){
-				res.render('insertCars.ejs', { user: req.user, message: "Incorrect VIN format. Example: 1HGBH41JXMN109186"});	
+				res.render('insertCars.ejs', { user: req.user, message: "Incorrect VIN format. Example: JT1BHZ3BXF8103876"});	
 			}
 			else{
 				var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories) "+
@@ -351,14 +351,57 @@ module.exports = function(app, passport){
 		var queryString = "SELECT * FROM owners";
 		db.query(queryString)
 		.then(function(results){
-			res.render('owners.ejs', { user: req.user, records: results });
+			res.render('owners.ejs', { user: req.user, records: results, message: "", flag: "good" });
 		});
 	});
 	app.post('/viewOwners/:vin', function(req, res){
 		var queryString = "SELECT * FROM owners WHERE vin = $1";
 		db.query(queryString,[req.params.vin])
 		.then(function(results){
-			res.render('owners.ejs', { user: req.user, records: results });
+			res.render('owners.ejs', { user: req.user, records: results, message: "", flag: "good" });
+		});
+	});
+
+	app.post('/addOwner/:vin', function(req, res){
+		var queryString = "SELECT * FROM cars WHERE vin = $1";
+		db.query(queryString,[req.params.vin])
+		.then(function(results){
+			if(results.length > 0){
+				var queryString = "SELECT * FROM owners WHERE vin = $1";
+				db.query(queryString,req.params.vin)
+				.then(function(results){
+					if(results.length == 0){
+						var queryString = "UPDATE cars SET classification = 'Sold' WHERE vin = $1";
+						db.query(queryString,req.params.vin)
+						.then(function(results){
+							var queryString = "INSERT INTO owners(VIN,first_name,last_name,phone_number,email) "+
+							"values($1,$2,$3,$4,$5)";
+							db.query(queryString,[req.params.vin,req.body.firstName,req.body.lastName,req.body.phoneNumber,req.body.email])
+							.then(function(results){
+								var queryString = "SELECT * FROM owners WHERE vin = $1";
+								db.query(queryString,[req.params.vin])
+								.then(function(results){
+									res.render('owners.ejs', { user: req.user, records: results, message: "Successfully added new record.", flag: "good"  });
+								});
+							});
+						});
+					}
+					else{
+						var queryString = "SELECT * FROM cars WHERE VIN = $1";
+						db.query(queryString,[req.params.vin])
+						.then(function(results){
+							res.render('moreInfo.ejs', { user: req.user, cars: results, message: "An owner for this vehicle already exists." });
+						});
+					}
+				});
+			}
+			else{
+				var queryString = "SELECT * FROM owners";
+				db.query(queryString)
+				.then(function(results){
+					res.render('owners.ejs', { user: req.user, records: results, message: "VIN does not exist.", flag: "bad" });
+				});
+			}
 		});
 	});
 

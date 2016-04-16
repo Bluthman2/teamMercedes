@@ -6,8 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/styles/moreInfo.css">
-  
+ 
 </head>
 <body>
 
@@ -36,20 +35,21 @@
       </div><!--/.nav-collapse -->
     </div>
   </nav>
-
   <div class="jumbotron">
     <div class="container">
       <h1>More Information about Vehicle <%= cars[0].VIN %></h1>
       <p><%= cars[0].model %> <%= cars[0].type %></p>
     </div>
   </div>
-  <div class="container">
+  <div class="container"> 
+    <% if (message.length > 0) { %>
+      <div class="alert alert-danger"><%= message %></div>
+    <% } %> 
     <!-- Example row of columns -->
     <div class="row">
       <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        <h2>VIN</h2>
+        <p><%= cars[0].vin %></p>
       </div>
       <div class="col-md-4">
         <h2>Heading</h2>
@@ -62,6 +62,31 @@
         <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
       </div>
     </div>
+    <form method="post" action="/addOwner/<%= cars[0].vin%>" id="ownerForm" class = "ownerForm">
+      <fieldset>
+        <legend>Insert Owner Record:</legend>
+        First Name:
+        <input type="text" name="firstName" value="">
+        Last Name:
+        <input type="text" name="lastName" value="">
+        <br>
+        <br>
+        Email:
+        <input type="text" name="email" value="">
+        Phone Number:
+        <input type="text" name="phoneNumber" value="">
+        <br>
+        <br>
+        <% if(cars[0].classification == "Sold") {%>
+          <input class="btn btn-primary" type="submit" value="Insert">
+        <% } %>
+        <% if(cars[0].classification != "Sold"){%>
+          <input class="btn btn-primary" type="submit" value="Mark as Sold">
+        <% } %>
+        
+        <h2></h2>   
+      </fieldset>
+    </form> 
   </div> <!-- /container -->
 
   </div>

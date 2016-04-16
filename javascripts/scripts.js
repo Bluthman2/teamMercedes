@@ -124,3 +124,70 @@ function modelChange2() {
 		document.getElementById("Type").appendChild(new Option("5-Door SE", "5-Door SE"));
 	}         
 }
+function getVINInfo(val){
+	if(val.length >= 8){
+		console.log("val"+val);
+		var model_temp = "Avalon";
+		if(val.substring(7, 8) == 3){
+			model_temp = "Yaris";
+		}
+		else if(val.substring(7, 8) == 'B'){
+			model_temp = "Avalon";
+		}
+		else if(val.substring(7, 8) == 'E'){
+			model_temp = "Corolla";
+		}
+		else if(val.substring(7, 8) == 'K'){
+			model_temp = "Camry";
+		}
+		else if(val.substring(7, 8) == 'U'){
+			model_temp = "Prius";
+		}
+		document.getElementById("Year").value = year_temp;
+		document.getElementById("Year").min = year_temp;
+		document.getElementById("Year").max = year_temp;
+	}
+	if(val.length >= 10){
+		console.log("val"+val);
+		var year_temp = 0000;
+		if(val.substring(9, 10) == 'V'){
+			year_temp = 1997;
+		}
+		else if(val.substring(9, 10) == 'W'){
+			year_temp = 1998;
+		}
+		else if(val.substring(9, 10) == 'X'){
+			year_temp = 1999;
+		}
+		else if(val.substring(9, 10) == 'Y'){
+			year_temp = 2000;
+		}
+		else if(val.substring(9, 10) >= 1 && val.substring(9, 10) <= 9){
+			year_temp = 200 + val.substring(9, 10);
+		}
+		else if(val.substring(9, 10) == 'A'){
+			year_temp = 2010;
+		}
+		else if(val.substring(9, 10) == 'B'){
+			year_temp = 2011;
+		}
+		else if(val.substring(9, 10) == 'C'){
+			year_temp = 2012;
+		}
+		else if(val.substring(9, 10) == 'D'){
+			year_temp = 2013;
+		}
+		else if(val.substring(9, 10) == 'E'){
+			year_temp = 2014;
+		}
+		else if(val.substring(9, 10) == 'F'){
+			year_temp = 2015;
+		}
+		else if(val.substring(9, 10) == 'G'){
+			year_temp = 2016;
+		}
+		document.getElementById("Year").value = year_temp;
+		document.getElementById("Year").min = year_temp;
+		document.getElementById("Year").max = year_temp;
+	}
+}
