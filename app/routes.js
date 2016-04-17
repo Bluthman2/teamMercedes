@@ -68,7 +68,8 @@ module.exports = function(app, passport){
 				db.query(queryString,[req.body.VIN,req.body.Classification,req.body.Year,
 					req.body.Type,req.body.Model,req.body.Color,req.body.Accessories])
 				.then(function(results){
-					res.render('insertCars.ejs', { user: req.user, message: ""  });
+					// res.render('insertCars.ejs', { user: req.user, message: ""  });
+					res.redirect('/moreInfo/'+req.body.VIN);
 				});
 			}
 		});		
@@ -158,7 +159,7 @@ module.exports = function(app, passport){
 		
 	});
 
-	app.post('/moreInfo/:vin', function(req, res){
+	app.get('/moreInfo/:vin', function(req, res){
 		var queryString = "SELECT * FROM cars WHERE VIN = $1";
 		db.query(queryString,[req.params.vin])
 		.then(function(results){
