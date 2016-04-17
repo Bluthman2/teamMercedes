@@ -1,7 +1,7 @@
 <!-- views/table.ejs -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
   <title>Toyota</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,8 +26,8 @@
           <ul class="nav navbar-nav">
             <li><a href="/home">Home</a></li>
             <li><a href="/insertCar">Insert Cars</a></li>
-            <li class="active"><a href="/cars">Cars</a></li>
-            <li><a href="/orders">Orders</a></li>
+            <li><a href="/cars">Cars</a></li>
+            <li class="active"><a href="/orders">Orders</a></li>
             <li><a href="/viewMaintenance">Maintenance</a></li>
             <li><a href="/viewOwners">Owners</a></li>
           </ul>
@@ -41,24 +41,22 @@
   <div class="masthead">
     <nav>
       <ul class="nav nav-justified">
-        <li><a href="/cars">All Cars</a></li>
-        <li class="active"><a href="/newCars">New Cars</a></li>
-        <li><a href="/usedCars">Used Cars</a></li>
-        <li><a href="/auctionCars">Auction Cars</a></li>
-        <li><a href="/junkCars">Junk Cars</a></li>
-        <li><a href="/soldCars">Sold Cars</a></li>
+        <li><a href="/orders">All Orders</a></li>
+        <li><a href="/onOrder">On Order</a></li>
+        <li class="active"><a href="/backOrder">Back Order</a></li>
+        <li><a href="/recentlyDelivered">Recently Delivered</a></li>
       </ul>
     </nav>
   </div>
   <h2></h2>      
   <% if (message.length > 0) { %>
     <div class="alert alert-danger"><%= message %></div>
-  <% } %>       
+  <% } %>     
   <table class="table table-hover">
     <thead>
       <tr>
         <th>VIN</th>
-        <th>Classification</th>
+        <th>Status</th>
         <th>Year</th>
         <th>Model</th>
         <th>Edition</th>
@@ -69,22 +67,23 @@
     <tbody>
       <% for(var i=0; i<cars.length; i++) {%>
         <tr>
-           <td><%= cars[i].vin %></td>
-           <td><%= cars[i].classification %></td>
-           <td><%= cars[i].year %></td>
-           <td><%= cars[i].model %></td>
-           <td><%= cars[i].type %></td>
-           <td><%= cars[i].color %></td>
-           <td><%= cars[i].accessories %></td>
-           <td><form method="post" action="/removeCar/<%=cars[i].vin%>/<%=cars[i].classification%>" id="insertForm" class = "insertForm"><input class="btn btn-default btn-sm btn-danger" type="submit" value="Remove"></form></td>
+          <td><%= cars[i].vin %></td>
+          <td><%= cars[i].classification %></td>
+          <td><%= cars[i].year %></td>
+          <td><%= cars[i].model %></td>
+          <td><%= cars[i].type %></td>
+          <td><%= cars[i].color %></td>
+          <td><%= cars[i].accessories %></td>
+          <td><form method="post" action="/removeCar/<%=cars[i].vin%>/<%=cars[i].classification%>" id="insertForm" class = "insertForm"><input class="btn btn-default btn-sm btn-danger" type="submit" value="Remove"></form></td>
            <td><form method="post" action="/moreInfo/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input class="btn btn-default btn-sm" type="submit" value="Show More"></form></td>
         </tr>
-        <% } %>
+      <% } %>
     </tbody>
   </table>
 
 </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="scripts/scripts.js"></script>
 </body>
 </html>
