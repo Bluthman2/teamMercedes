@@ -167,6 +167,48 @@ module.exports = function(app, passport){
 		
 	});
 
+	app.get('/placeOrder', isLoggedIn, function(req, res){
+		res.render('placeOrder.ejs', { user: req.user, message: "" });	
+	});
+
+	app.post('/placeOrder', function(req, res){
+		var vin_temp = "JT1BHZ3BXG8";
+		var vin_temp = vin_temp + Math.floor(Math.random() * (999999 - 111111) + 111111);
+		var queryString1 = "SELECT * FROM cars WHERE VIN = $1";
+		db.query(queryString1,[vin_temp])
+		.then(function(results){
+			if(results.length > 0){
+				var vin_temp = "JT1BHZ3BXG8";
+				var vin_temp = vin_temp + Math.floor(Math.random() * (999999 - 111111) + 111111);
+				var queryString1 = "SELECT * FROM cars WHERE VIN = $1";
+				db.query(queryString1,[vin_temp])
+				.then(function(results){
+					if(results.length > 0){
+						res.render('placeOrder.ejs', { user: req.user, message: "Please try again."});	
+					}
+					else{
+						var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories,\"order\") "+
+						"values($1,$2,$3,$4,$5,$6,$7,$8)";
+						db.query(queryString,[vin_temp,"On Order",2016,
+							req.body.Type,req.body.Model,req.body.Color,req.body.Accessories,true])
+						.then(function(results){
+							res.render('placeOrder.ejs', { user: req.user, message: "Successfully Ordered Vehicle."  });
+						});
+					}
+				});	
+			}
+			else{
+				var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories,\"order\") "+
+				"values($1,$2,$3,$4,$5,$6,$7,$8)";
+				db.query(queryString,[vin_temp,"On Order",2016,
+					req.body.Type,req.body.Model,req.body.Color,req.body.Accessories,true])
+				.then(function(results){
+					res.render('placeOrder.ejs', { user: req.user, message: "Successfully Ordered Vehicle."  });
+				});
+			}
+		});		
+	});
+
 	app.get('/orders', isLoggedIn, function(req, res){
 		var cars;
 		var queryString = "SELECT * FROM cars WHERE \"order\" = true";

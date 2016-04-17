@@ -41,46 +41,55 @@
   <div class="masthead">
     <nav>
       <ul class="nav nav-justified">
-        <li><a href="/placeOrder">Place Order</a></li>
+        <li class="active"><a href="/placeOrder">Place Order</a></li>
         <li><a href="/orders">All Orders</a></li>
         <li><a href="/onOrder">On Order</a></li>
         <li><a href="/backOrder">Back Order</a></li>
-        <li class="active"><a href="/recentlyDelivered">Recently Delivered</a></li>
+        <li><a href="/recentlyDelivered">Recently Delivered</a></li>
       </ul>
     </nav>
-  </div>  
+  </div>
   <h2></h2>     
-  <% if (message.length > 0) { %>
-    <div class="alert alert-danger"><%= message %></div>
-  <% } %>    
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>VIN</th>
-        <th>Status</th>
-        <th>Year</th>
-        <th>Model</th>
-        <th>Edition</th>
-        <th>Color</th>
-        <th>Accessories</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% for(var i=0; i<cars.length; i++) {%>
-        <tr>
-          <td><%= cars[i].vin %></td>
-          <td><%= cars[i].classification %></td>
-          <td><%= cars[i].year %></td>
-          <td><%= cars[i].model %></td>
-          <td><%= cars[i].type %></td>
-          <td><%= cars[i].color %></td>
-          <td><%= cars[i].accessories %></td>
-          <td><form method="post" action="/removeCar/<%=cars[i].vin%>/<%=cars[i].classification%>" id="insertForm" class = "insertForm"><input class="btn btn-default btn-sm btn-danger" type="submit" value="Remove"></form></td>
-           <td><form method="post" action="/moreInfo/<%=cars[i].vin%>" id="insertForm" class = "insertForm"><input class="btn btn-default btn-sm" type="submit" value="Show More"></form></td>
-        </tr>
-      <% } %>
-    </tbody>
-  </table>
+  <div class="container">
+    <% if (message.length > 0) { %>
+      <div class="alert alert-success"><%= message %></div>
+    <% } %>     
+    <form method="post" action="/placeOrder" id="insertForm" class = "insertForm">
+      <fieldset>
+        <legend>Order Car:</legend>
+        Model:<br>
+        <select name="Model" id="Model" onLoad="modelChange()" onChange="modelChange()">
+          <option value="Avalon">Avalon</option>
+          <option value="Camry">Camry</option>
+          <option value="Corolla">Corolla</option>
+          <option value="Prius">Prius</option>
+          <option value="Prius c">Prius c</option>
+          <option value="Prius v">Prius v</option>
+          <option value="Yaris">Yaris</option>
+        </select>
+        <br>
+        Edition:<br>
+        <select name="Type" id="Type">
+          <option value="XLE">XLE</option>
+          <option value="XLE Plus">XLE Plus</option>
+          <option value="XLE Premium">XLE Premium</option>
+          <option value="Touring">Touring</option>
+          <option value="Limited">Limited</option>
+          <option value="Hybrid XLE Plus">Hybrid XLE Plus</option>
+          <option value="Hybrid XLE Premium">Hybrid XLE Premium</option>
+          <option value="Hybrid Limited">Hybrid Limited</option>
+        </select>
+        <br>
+        Color:<br>
+        <input type="text" name="Color" value="">
+        <br>
+        Accessories:<br>
+        <input type="text" name="Accessories" value="">
+        <br><br>
+        <input class="btn btn-primary" type="submit" value="Submit">
+      </fieldset>
+    </form>
+  </div>
 
 </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
