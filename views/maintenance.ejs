@@ -36,7 +36,8 @@
       </div>
     </nav>
   <div class="container">
-    <h2>Sold Car Maintenance</h2>
+    <h2><Strong>Sold Car Maintenance</Strong></h2>
+    <hr>
     <% if (message.length > 0 && flag == "bad") { %>
       <div class="alert alert-danger"><%= message %></div>
     <% } %>
@@ -45,7 +46,7 @@
     <% } %>
     <form method="post" action="/addMaintenance" id="maintenanceForm" class = "maintenanceForm">
       <fieldset>
-        <legend>Insert Maintenance Record:</legend>
+        <h4>Insert Maintenance Record:</h4>
         VIN
         <input type="text" name="vin" value=<%= vin %>>
         Date:
