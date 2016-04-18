@@ -241,6 +241,9 @@ module.exports = function(app, passport){
 		if(req.body.Type != ""){
 			queryString+= " AND type = '" + req.body.Type + "'";
 		}
+		if(req.body.Accessories != ""){
+			queryString += " AND accessories::text LIKE '%" + req.body.Accessories + "%'";
+		}
 		console.log(queryString);
 		db.query(queryString)
 		.then(function(results){
