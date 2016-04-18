@@ -37,8 +37,9 @@
   </nav>
   <div class="jumbotron">
     <div class="container">
-      <h1>More Information about Vehicle <%= cars[0].VIN %></h1>
+      <h1>More Information about Vehicle</h1>
       <p><%= cars[0].model %> <%= cars[0].type %></p>
+      <p>VIN: <%= cars[0].vin %></p>
     </div>
   </div>
   <div class="container"> 
@@ -47,16 +48,39 @@
     <% } %> 
     <!-- Example row of columns -->
     <div class="row">
-      <div class="col-md-4">
-        <h2>VIN</h2>
-        <p><%= cars[0].vin %></p>
+      <div class="col-md-8">
+        <p>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Classification</th>
+                <th>Delivery Date</th>
+                <th>Year</th>
+                <th>Engine Specifications</th>
+                <th>Transmission Type</th>
+                <th>Audio System</th>
+                <th>Mileage (City/Highway)</th>
+                <th>Accessories</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(var i=0; i<cars.length; i++) {%>
+                <tr>
+                   <td><%= cars[i].classification %></td>
+                   <td><%= cars[i].delivery_date.toUTCString().substring(0, 16) %></td>
+                   <td><%= cars[i].year %></td>
+                   <td><%= cars[i].engine_specs %></td>
+                   <td><%= cars[i].transmission_type %></td>
+                   <td><%= cars[i].audio_system %></td>
+                   <td><%= cars[i].mileage %></td>
+                   <td><%= cars[i].accessories %></td>
+                </tr>
+                <% } %>
+            </tbody>
+          </table>
+        </p>
       </div>
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-     </div>
-      <div class="col-md-4">
+      <div class="col-md-3 col-md-offset-1">
         <h2>Options</h2>
         <% if(cars[0].classification == "Sold") {%>
           <td><form method="post" action="/viewOwners/<%=cars[0].vin%>" id="insertForm" class = "insertForm"><input class="btn btn-primary btn-sm" type="submit" value="View Owner Information"></form></td>
