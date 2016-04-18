@@ -63,10 +63,12 @@ module.exports = function(app, passport){
 				res.render('insertCars.ejs', { user: req.user, message: "Incorrect VIN format. Example: JT1BHZ3BXF8103876"});	
 			}
 			else{
-				var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories) "+
-				"values($1,$2,$3,$4,$5,$6,$7)";
+				var queryString = "INSERT INTO cars(VIN,classification,year,type,model,"+
+				"color,accessories,engine_specs,transmission_type,audio_system,mileage,delivery_date) "+
+				"values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)";
 				db.query(queryString,[req.body.VIN,req.body.Classification,req.body.Year,
-					req.body.Type,req.body.Model,req.body.Color,req.body.Accessories])
+					req.body.Type,req.body.Model,req.body.Color,req.body.Accessories,
+					req.body.Engine,req.body.Transmission,req.body.Audio,req.body.Mileage,req.body.Date])
 				.then(function(results){
 					// res.render('insertCars.ejs', { user: req.user, message: ""  });
 					res.redirect('/moreInfo/'+req.body.VIN);
@@ -178,36 +180,43 @@ module.exports = function(app, passport){
 	app.post('/placeOrder', function(req, res){
 		var vin_temp = "JT1BHZ3BXG8";
 		var vin_temp = vin_temp + Math.floor(Math.random() * (999999 - 111111) + 111111);
+		console.log(vin_temp);
 		var queryString1 = "SELECT * FROM cars WHERE VIN = $1";
 		db.query(queryString1,[vin_temp])
 		.then(function(results){
 			if(results.length > 0){
-				var vin_temp = "JT1BHZ3BXG8";
-				var vin_temp = vin_temp + Math.floor(Math.random() * (999999 - 111111) + 111111);
+				var vin_temp_2 = "JT1BHZ3BXG8";
+				var vin_temp_2 = vin_temp_2 + Math.floor(Math.random() * (999999 - 111111) + 111111);
+				console.log("vin_temp="+vin_temp_2);
 				var queryString1 = "SELECT * FROM cars WHERE VIN = $1";
-				db.query(queryString1,[vin_temp])
+				db.query(queryString1,[vin_temp_2])
 				.then(function(results){
 					if(results.length > 0){
 						res.render('placeOrder.ejs', { user: req.user, message: "Please try again."});	
 					}
 					else{
-						var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories,\"order\") "+
-						"values($1,$2,$3,$4,$5,$6,$7,$8)";
-						db.query(queryString,[vin_temp,"On Order",2016,
-							req.body.Type,req.body.Model,req.body.Color,req.body.Accessories,true])
+						var queryString = "INSERT INTO cars(VIN,classification,year,type,model,"+
+						"color,accessories,engine_specs,transmission_type,audio_system,mileage,delivery_date,\"order\") "+
+						"values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)";
+						db.query(queryString,[vin_temp_2,"On Order",2016,
+							req.body.Type,req.body.Model,req.body.Color,req.body.Accessories,
+							req.body.Engine,req.body.Transmission,req.body.Audio,req.body.Mileage,req.body.Date,true])
 						.then(function(results){
-							res.render('placeOrder.ejs', { user: req.user, message: "Successfully Ordered Vehicle."  });
+							res.redirect('/moreInfo/'+vin_temp_2);	
 						});
 					}
 				});	
 			}
 			else{
-				var queryString = "INSERT INTO cars(VIN,classification,year,type,model,color,accessories,\"order\") "+
-				"values($1,$2,$3,$4,$5,$6,$7,$8)";
+				console.log("else="+vin_temp);
+				var queryString = "INSERT INTO cars(VIN,classification,year,type,model,"+
+				"color,accessories,engine_specs,transmission_type,audio_system,mileage,delivery_date,\"order\") "+
+				"values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)";
 				db.query(queryString,[vin_temp,"On Order",2016,
-					req.body.Type,req.body.Model,req.body.Color,req.body.Accessories,true])
+					req.body.Type,req.body.Model,req.body.Color,req.body.Accessories,
+					req.body.Engine,req.body.Transmission,req.body.Audio,req.body.Mileage,req.body.Date,true])
 				.then(function(results){
-					res.render('placeOrder.ejs', { user: req.user, message: "Successfully Ordered Vehicle."  });
+					res.redirect('/moreInfo/'+vin_temp);
 				});
 			}
 		});		

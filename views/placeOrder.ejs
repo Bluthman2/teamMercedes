@@ -56,6 +56,9 @@
     <form method="post" action="/placeOrder" id="insertForm" class = "insertForm">
       <fieldset>
         <legend>Order Car:</legend>
+        Delivery Date:<br>
+        <input type="date" id="theDate" name="Date">
+        <br>
         Model:<br>
         <select name="Model" id="Model" onLoad="modelChange()" onChange="modelChange()">
           <option value="Avalon">Avalon</option>
@@ -79,13 +82,32 @@
           <option value="Hybrid Limited">Hybrid Limited</option>
         </select>
         <br>
+        Engine Type:<br>
+        <select name="Engine" id="Engine">
+          <option value="V4">V4</option>
+          <option value="V6">V6</option>
+        </select>
+        <br>
+        Transmission Type:<br>
+        <select name="Transmission" id="Transmission">
+          <option value="Automatic">Automatic</option>
+          <option value="Manual">Manual</option>
+        </select>
+        <br>
         Color:<br>
         <input type="text" name="Color" value="">
+        <br>
+        Audio System:<br>
+        <input type="text" name="Audio" value="">
+        <br>
+        Mileage:<br>
+        <input type="text" name="Mileage" value="">
         <br>
         Accessories:<br>
         <input type="text" name="Accessories" value="">
         <br><br>
         <input class="btn btn-primary" type="submit" value="Submit">
+        <br><br>
       </fieldset>
     </form>
   </div>
@@ -94,5 +116,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="scripts/scripts.js"></script>
+  <script> 
+    document.getElementById("theDate").defaultValue = new Date().toISOString().substring(0, 10);
+  </script>
 </body>
 </html>

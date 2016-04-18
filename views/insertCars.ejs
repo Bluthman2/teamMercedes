@@ -28,7 +28,7 @@
         <ul class="nav navbar-nav">
           <li><a href="/home">Home</a></li>
           <li><a href="/orders">Orders</a></li>
-          <li><a href="/cars">Cars</a></li>
+          <li class="active"><a href="/cars">Cars</a></li>
           <li><a href="/viewMaintenance">Maintenance</a></li>
           <li><a href="/viewOwners">Owners</a></li>
         </ul>
@@ -59,6 +59,9 @@
     <form method="post" action="/insertCar" id="insertForm" class = "insertForm">
       <fieldset>
         <legend>Insert Car:</legend>
+        Date Delivered:<br>
+        <input type="date" id="theDate" name="Date">
+        <br>
         VIN:<br>
         <input type="text" id="VIN" oninput="getVINInfo(this.value)" name="VIN" value="">
         <br>
@@ -97,14 +100,32 @@
           <option value="Hybrid Limited">Hybrid Limited</option>
         </select>
         <br>
+        Engine Type:<br>
+        <select name="Engine" id="Engine">
+          <option value="V4">V4</option>
+          <option value="V6">V6</option>
+        </select>
+        <br>
+        Transmission Type:<br>
+        <select name="Transmission" id="Transmission">
+          <option value="Automatic">Automatic</option>
+          <option value="Manual">Manual</option>
+        </select>
+        <br>
         Color:<br>
         <input type="text" name="Color" value="">
+        <br>
+        Audio System:<br>
+        <input type="text" name="Audio" value="">
+        <br>
+        Mileage:<br>
+        <input type="text" name="Mileage" value="">
         <br>
         Accessories:<br>
         <input type="text" name="Accessories" value="">
         <br><br>
-
         <input class="btn btn-primary" type="submit" value="Submit">
+        <br><br>
       </fieldset>
     </form>
   </div>
