@@ -105,7 +105,7 @@ module.exports = function(app, passport){
 			queryString += " AND type = '" + req.body.Type + "'";
 		}
 		if(req.body.Accessories != ""){
-			queryString += " AND accessories::text LIKE '%" + req.body.Accessories + "%'";
+			queryString += " AND accessories::text LIKE '%" + req.body.Accessories.toLowerCase() + "%'";
 		}
 		console.log(queryString);
 		db.query(queryString)
@@ -251,7 +251,7 @@ module.exports = function(app, passport){
 			queryString+= " AND type = '" + req.body.Type + "'";
 		}
 		if(req.body.Accessories != ""){
-			queryString += " AND accessories::text LIKE '%" + req.body.Accessories + "%'";
+			queryString += " AND accessories::text LIKE '%" + req.body.Accessories.toLowerCase() + "%'";
 		}
 		console.log(queryString);
 		db.query(queryString)
