@@ -91,16 +91,19 @@ module.exports = function(app, passport){
 			queryString += " AND VIN = '" + req.body.VIN + "'";
 		}
 		if(req.body.Classification != ""){
-			queryString+= " AND classification = '" + req.body.Classification + "'";
+			queryString += " AND classification = '" + req.body.Classification + "'";
 		}
 		if(req.body.Year != ""){
-			queryString+= " AND year = " + req.body.Year;
+			queryString += " AND year = " + req.body.Year;
 		}
 		if(req.body.Model != ""){
-			queryString+= " AND model = '" + req.body.Model + "'";
+			queryString += " AND model = '" + req.body.Model + "'";
 		}
 		if(req.body.Type != ""){
-			queryString+= " AND type = '" + req.body.Type + "'";
+			queryString += " AND type = '" + req.body.Type + "'";
+		}
+		if(req.body.Accessories != ""){
+			queryString += " AND accessories::text LIKE '%" + req.body.Accessories + "%'";
 		}
 		console.log(queryString);
 		db.query(queryString)
