@@ -1,1 +1,0 @@
-document.getElementById("theDate").defaultValue = new Date().toISOString().substring(0, 10);
