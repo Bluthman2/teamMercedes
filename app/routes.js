@@ -72,6 +72,7 @@ module.exports = function(app, passport){
 				.then(function(results){
 					// res.render('insertCars.ejs', { user: req.user, message: ""  });
 					res.redirect('/moreInfo/'+req.body.VIN);
+					// res.redirect('/insertCar');
 				});
 			}
 		});		
@@ -499,7 +500,7 @@ module.exports = function(app, passport){
 				db.query(queryString,req.params.vin)
 				.then(function(results){
 					if(results.length == 0){
-						var queryString = "UPDATE cars SET classification = 'Sold' WHERE vin = $1";
+						var queryString = "UPDATE cars SET classification = 'Sold',\"order\" = false WHERE vin =  $1";
 						db.query(queryString,req.params.vin)
 						.then(function(results){
 							var queryString = "INSERT INTO owners(VIN,first_name,last_name,phone_number,email) "+

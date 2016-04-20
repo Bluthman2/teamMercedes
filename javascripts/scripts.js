@@ -125,28 +125,6 @@ function modelChange2() {
 	}         
 }
 function getVINInfo(val){
-	if(val.length >= 8){
-		console.log("val"+val);
-		var model_temp = "Avalon";
-		if(val.substring(7, 8) == 3){
-			model_temp = "Yaris";
-		}
-		else if(val.substring(7, 8) == 'B'){
-			model_temp = "Avalon";
-		}
-		else if(val.substring(7, 8) == 'E'){
-			model_temp = "Corolla";
-		}
-		else if(val.substring(7, 8) == 'K'){
-			model_temp = "Camry";
-		}
-		else if(val.substring(7, 8) == 'U'){
-			model_temp = "Prius";
-		}
-		document.getElementById("Year").value = year_temp;
-		document.getElementById("Year").min = year_temp;
-		document.getElementById("Year").max = year_temp;
-	}
 	if(val.length >= 10){
 		console.log("val"+val);
 		var year_temp = 0000;
@@ -191,3 +169,21 @@ function getVINInfo(val){
 		document.getElementById("Year").max = year_temp;
 	}
 }
+// function loadTest(){
+// 	console.log("Run load test");
+// 	document.getElementById("theDate").value = new Date().toISOString().substring(0, 10);
+// 	var vin_temp = "JT1BHZ3BXG8";
+// 	var vin_temp = vin_temp + Math.floor(Math.random() * (999999 - 111111) + 111111);
+// 	document.getElementById("VIN").value = vin_temp;
+// 	document.getElementById("Classification").value = "New";
+// 	document.getElementById("Year").value = 1952;
+// 	document.getElementById("Model").value = "Avalon";
+// 	document.getElementById("Type").value = "XLE";
+// 	document.getElementById("Engine").value = "V6";
+// 	document.getElementById("Transmission").value = "Automatic";
+// 	document.getElementById("Color").value = "Yellow";
+// 	document.getElementById("Audio").value = "CD Player";
+// 	document.getElementById("Mileage").value = "30/29";
+// 	document.getElementById("Accessories").value = "none";
+// 	document.getElementById('insertForm').submit();
+// }

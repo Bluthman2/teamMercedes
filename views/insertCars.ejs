@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/styles/cars.css">
 </head>
 
-<body>
+<body> <!-- onLoad="loadTest()" -->
 
   <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
@@ -66,7 +66,7 @@
         <input type="text" id="VIN" oninput="getVINInfo(this.value)" name="VIN" value="">
         <br>
         Classification:<br>
-        <select name="Classification">
+        <select name="Classification" id="Classification">
           <option value="New">New</option>
           <option value="Used">Used</option>
           <option value="Auction">Auction</option>
@@ -113,18 +113,18 @@
         </select>
         <br>
         Color:<br>
-        <input type="text" name="Color" value="">
+        <input type="text" name="Color" id="Color" value="">
         <br>
         Audio System:<br>
-        <input type="text" name="Audio" value="">
+        <input type="text" name="Audio" id="Audio" value="">
         <br>
         Mileage:<br>
-        <input type="text" name="Mileage" value="">
+        <input type="text" name="Mileage" id="Mileage" value="">
         <br>
         Accessories:<br>
-        <input type="text" name="Accessories" value="">
+        <input type="text" name="Accessories" id="Accessories" value="">
         <br><br>
-        <input class="btn btn-primary" type="submit" value="Submit">
+        <input class="btn btn-primary" type="submit" id="Submit" value="Submit">
         <br><br>
       </fieldset>
     </form>
